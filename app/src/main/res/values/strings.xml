@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ShopMart</string>
+    <string name="product_list">Product List</string>
+    <string name="add_product">Add Product</string>
 </resources>
