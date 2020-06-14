@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class MainActivity : AppCompatActivity() {
 
     private val viewModel = ProductViewModel()
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun subscribeUI() {
         viewModel.productListLiveData.observe(this, Observer {
-            productViewAdapter.setProduct(it)
+                productViewAdapter.setProduct(it)
         })
     }
 
