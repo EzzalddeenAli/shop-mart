@@ -1,15 +1,15 @@
-package com.example.shopmart
+package com.example.shopmart.product
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shopmart.Product
+import com.example.shopmart.ProductRepositoryImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class ProductViewModel : ViewModel() {
-
-    private val productRepository = ProductRepositoryImpl
 
     var productListLiveData = MutableLiveData<List<Product>>()
 
@@ -19,18 +19,19 @@ class ProductViewModel : ViewModel() {
 
     private fun getData() {
         viewModelScope.launch {
-            productListLiveData.value = productRepository.getProduct()
+            productListLiveData.value = ProductRepositoryImpl.getProduct()
         }
     }
 
     fun addProduct() {
         viewModelScope.launch {
-            val isAddedSuccessFully = productRepository.addProduct(
-                hashMapOf(
-                    NAME to "Lamp Shade",
-                    PRICE to 199
+            val isAddedSuccessFully =
+                ProductRepositoryImpl.addProduct(
+                    hashMapOf(
+                        NAME to "Lamp Shade",
+                        PRICE to 199
+                    )
                 )
-            )
 
             if (isAddedSuccessFully) {
                 getData()

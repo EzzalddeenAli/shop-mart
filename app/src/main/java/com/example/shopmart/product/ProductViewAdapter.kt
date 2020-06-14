@@ -1,9 +1,11 @@
-package com.example.shopmart
+package com.example.shopmart.product
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shopmart.Product
+import com.example.shopmart.R
 import kotlinx.android.synthetic.main.item_product.view.*
 
 class ProductViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -19,7 +21,9 @@ class ProductViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false)
-        return ProductViewHolder(view)
+        return ProductViewHolder(
+            view
+        )
     }
 
     override fun getItemCount() = productList.size
