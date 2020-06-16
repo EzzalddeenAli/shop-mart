@@ -1,20 +1,22 @@
-package com.example.shopmart
+package com.example.shopmart.data.repository
 
 import android.util.Log
+import com.example.shopmart.data.model.Product
 import com.example.shopmart.product.ProductViewModel
 import com.example.shopmart.product.ProductViewModel.Companion.PRODUCT
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @ExperimentalCoroutinesApi
-object ProductRepositoryImpl: ProductRepository {
-
-    private val firebaseFirestore = FirebaseFirestore.getInstance()
+class ProductRepositoryImpl @Inject constructor(
+    private val firebaseFirestore: FirebaseFirestore
+): ProductRepository {
 
     override suspend fun getProduct(): List<Product> {
         return withContext(Dispatchers.IO) {
@@ -53,6 +55,8 @@ object ProductRepositoryImpl: ProductRepository {
         }
     }
 
-    const val TAG = "ProductRepositoryImpl"
+    companion object {
+        const val TAG = "ProductRepositoryImpl"
+    }
 
 }

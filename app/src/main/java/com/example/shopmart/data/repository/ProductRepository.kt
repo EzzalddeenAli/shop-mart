@@ -1,5 +1,6 @@
-package com.example.shopmart
+package com.example.shopmart.data.repository
 
+import com.example.shopmart.data.model.Product
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi

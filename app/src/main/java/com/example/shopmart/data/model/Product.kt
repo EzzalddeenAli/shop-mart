@@ -1,4 +1,4 @@
-package com.example.shopmart
+package com.example.shopmart.data.model
 
 data class Product(
     val name: String,

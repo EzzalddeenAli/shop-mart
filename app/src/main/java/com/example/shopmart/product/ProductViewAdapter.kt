@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shopmart.Product
+import com.example.shopmart.data.model.Product
 import com.example.shopmart.R
 import kotlinx.android.synthetic.main.item_product.view.*
 
