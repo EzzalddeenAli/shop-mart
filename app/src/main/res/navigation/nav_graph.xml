@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:startDestination="@id/productFragment"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/productFragment">
 
     <fragment
         android:id="@+id/productFragment"
         android:name="com.example.shopmart.product.ProductFragment"
         android:label="Blank"
-        tools:layout="@layout/fragment_product" />
+        tools:layout="@layout/fragment_product">
+        <action
+            android:id="@+id/product_to_productDetail"
+            app:destination="@id/productDetailFragment">
+            <argument
+                android:name="product"
+                app:argType="com.example.shopmart.data.model.Product" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.shopmart.ProductDetailFragment"
+        android:label="Detail"
+        tools:layout="@layout/fragment_product_detail">
+        <argument
+            android:name="product"
+            app:argType="com.example.shopmart.data.model.Product" />
+    </fragment>
 
 </navigation>

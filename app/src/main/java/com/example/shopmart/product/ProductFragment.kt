@@ -12,7 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class ProductFragment: Fragment(R.layout.fragment_product) {
+class ProductFragment : Fragment(R.layout.fragment_product) {
 
     private val viewModel by viewModels<ProductViewModel>()
 

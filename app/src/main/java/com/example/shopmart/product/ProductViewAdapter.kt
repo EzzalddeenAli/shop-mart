@@ -3,12 +3,13 @@ package com.example.shopmart.product
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shopmart.data.model.Product
 import com.example.shopmart.R
+import com.example.shopmart.data.model.Product
 import kotlinx.android.synthetic.main.item_product.view.*
 
-class ProductViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ProductViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var productList = emptyList<Product>()
 
@@ -33,6 +34,12 @@ class ProductViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         holder.itemView.apply {
             tvName.text = product.name
             tvPrice.text = product.price.toString()
+
+            setOnClickListener {
+                findNavController().navigate(
+                    ProductFragmentDirections.productToProductDetail(product)
+                )
+            }
         }
     }
 }
