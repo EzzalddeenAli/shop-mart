@@ -1,4 +1,4 @@
-package com.example.shopmart.product
+package com.example.shopmart.home.product
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData

@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/productFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/productFragment"
-        android:name="com.example.shopmart.product.ProductFragment"
+        android:id="@+id/homeFragment"
+        android:name="com.example.shopmart.home.HomeFragment"
         android:label="Blank"
-        tools:layout="@layout/fragment_product">
+        tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/product_to_productDetail"
+            android:id="@+id/home_to_productDetail"
             app:destination="@id/productDetailFragment">
             <argument
                 android:name="product"
