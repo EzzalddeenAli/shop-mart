@@ -1,4 +1,4 @@
-package com.example.shopmart.home.product
+package com.example.shopmart.ui.home.product
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmart.R
 import com.example.shopmart.data.model.Product
-import com.example.shopmart.home.HomeFragmentDirections
+import com.example.shopmart.ui.home.HomeFragmentDirections
 import kotlinx.android.synthetic.main.item_product.view.*
 
 class ProductViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -1,4 +1,4 @@
-package com.example.shopmart.home.product
+package com.example.shopmart.ui.home.product
 
 import android.os.Bundle
 import android.view.View

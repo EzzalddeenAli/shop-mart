@@ -1,17 +1,13 @@
-package com.example.shopmart.home
+package com.example.shopmart.ui.login
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.shopmart.R
-import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment: Fragment(R.layout.fragment_home) {
+class LoginFragment: Fragment(R.layout.fragment_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewPagerHome.adapter = HomePagerAdapter(this)
     }
-
 }

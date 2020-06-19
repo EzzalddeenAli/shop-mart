@@ -1,6 +1,7 @@
-package com.example.shopmart
+package com.example.shopmart.ui
 
 import androidx.appcompat.app.AppCompatActivity
+import com.example.shopmart.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

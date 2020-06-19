@@ -1,9 +1,10 @@
-package com.example.shopmart
+package com.example.shopmart.ui.detail
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.example.shopmart.R
 import com.example.shopmart.data.model.Product
 import kotlinx.android.synthetic.main.fragment_product_detail.*
 
