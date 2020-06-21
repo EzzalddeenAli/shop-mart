@@ -1,4 +1,4 @@
-package com.example.shopmart.ui.home.product
+package com.example.shopmart.ui.product
 
 import android.os.Bundle
 import android.view.View
@@ -10,7 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_product.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class ProductFragment : Fragment(R.layout.fragment_product) {
 

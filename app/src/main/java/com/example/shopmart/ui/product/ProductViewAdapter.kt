@@ -1,4 +1,4 @@
-package com.example.shopmart.ui.home.product
+package com.example.shopmart.ui.product
 
 import android.view.LayoutInflater
 import android.view.View

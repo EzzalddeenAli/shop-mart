@@ -1,4 +1,4 @@
-package com.example.shopmart.ui.home.product
+package com.example.shopmart.ui.product
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,6 @@ import com.example.shopmart.data.repository.ProductRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
 class ProductViewModel @ViewModelInject constructor(
     private val productRepository: ProductRepository
 ) : ViewModel() {

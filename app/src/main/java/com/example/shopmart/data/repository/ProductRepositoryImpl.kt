@@ -2,18 +2,16 @@ package com.example.shopmart.data.repository
 
 import android.util.Log
 import com.example.shopmart.data.model.Product
-import com.example.shopmart.ui.home.product.ProductViewModel
-import com.example.shopmart.ui.home.product.ProductViewModel.Companion.PRODUCT
+import com.example.shopmart.ui.product.ProductViewModel
+import com.example.shopmart.ui.product.ProductViewModel.Companion.PRODUCT
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-@ExperimentalCoroutinesApi
 class ProductRepositoryImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore
 ): ProductRepository {
