@@ -3,12 +3,13 @@ package com.example.shopmart.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.shopmart.R
-import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.ui.accountmanager.AccountManagerViewModel
+import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.util.AccountScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -31,10 +32,22 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
-        viewModel.signInSuccess.observe(viewLifecycleOwner, Observer {
-            accountManagerViewModel.updateScreen(AccountScreen.ACCOUNT)
-        })
+        subscribeUI()
+    }
 
+    private fun subscribeUI() {
+        with(viewModel) {
+            signInSuccess.observe(viewLifecycleOwner, Observer {
+                accountManagerViewModel.updateScreen(AccountScreen.ACCOUNT)
+            })
+
+            loadingLiveData.observe(viewLifecycleOwner, Observer {
+                pbLogin.isVisible = it
+                buttonLogin.isEnabled = !it
+                etUsername.isEnabled = !it
+                etPassword.isEnabled = !it
+            })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

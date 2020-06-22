@@ -14,6 +14,8 @@ class AccountViewModel @ViewModelInject constructor(
     private val firebaseAuth: FirebaseAuth
 ) : BaseViewModel() {
 
+    val loadingLiveData = MutableLiveData<Boolean>()
+
     val firebaseUserLiveData = MutableLiveData<FirebaseUser>()
 
     val navigateToLogin = MutableLiveData<Event<Unit>>()
@@ -28,11 +30,13 @@ class AccountViewModel @ViewModelInject constructor(
     }
 
     fun logout() {
+        loadingLiveData.value = true
         firebaseAuth.signOut()
         with(sharedPreferences.edit()) {
             remove(IS_LOGGED_IN)
             apply()
         }
+        loadingLiveData.value = false
     }
 
 }

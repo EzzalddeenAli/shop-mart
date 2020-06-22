@@ -14,13 +14,17 @@ class ProductViewModel @ViewModelInject constructor(
 
     var productListLiveData = MutableLiveData<List<Product>>()
 
+    var loadingLiveData = MutableLiveData<Boolean>()
+
     init {
         getData()
     }
 
     private fun getData() {
         viewModelScope.launch {
+            loadingLiveData.value = true
             productListLiveData.value = productRepository.getProduct()
+            loadingLiveData.value = false
         }
     }
 

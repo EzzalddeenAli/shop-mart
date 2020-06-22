@@ -29,8 +29,14 @@ class ProductFragment : BaseFragment(R.layout.fragment_product) {
     }
 
     private fun subscribeUI() {
-        viewModel.productListLiveData.observe(viewLifecycleOwner, Observer {
-            productViewAdapter.setProduct(it)
-        })
+        with(viewModel) {
+            loadingLiveData.observe(viewLifecycleOwner, Observer {
+                swipeRefreshLayoutProduct.isRefreshing = it
+            })
+
+            productListLiveData.observe(viewLifecycleOwner, Observer {
+                productViewAdapter.setProduct(it)
+            })
+        }
     }
 }

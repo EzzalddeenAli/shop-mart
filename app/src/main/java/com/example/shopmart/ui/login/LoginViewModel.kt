@@ -18,28 +18,31 @@ class LoginViewModel @ViewModelInject constructor(
     private val firebaseAuth: FirebaseAuth
 ) : BaseViewModel() {
 
+    val loadingLiveData = MutableLiveData<Boolean>()
+
     val signInSuccess = MutableLiveData<Event<Unit>>()
 
     fun signIn(data: Intent?) {
+        loadingLiveData.value = true
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
         try {
             val account = task.getResult(ApiException::class.java)!!
             firebaseAuthWithGoogle(account.idToken!!)
         } catch (e: ApiException) {
+            loadingLiveData.value = false
             Timber.d("Google sign in failed")
         }
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
-        // TODO: show loading
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Timber.d("signInWithCredential:success")
                     signInSuccess()
                 } else {
                     Timber.d("signInWithCredential:failure ${task.exception}")
+                    loadingLiveData.value = false
                 }
             }
     }
@@ -49,6 +52,7 @@ class LoginViewModel @ViewModelInject constructor(
             putBoolean(IS_LOGGED_IN, true)
             apply()
         }
+        loadingLiveData.value = false
         signInSuccess.value = null
     }
 

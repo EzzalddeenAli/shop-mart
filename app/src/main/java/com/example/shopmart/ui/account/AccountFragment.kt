@@ -2,12 +2,13 @@ package com.example.shopmart.ui.account
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.shopmart.R
-import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.ui.accountmanager.AccountManagerViewModel
+import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.util.AccountScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_account.*
@@ -27,14 +28,25 @@ class AccountFragment : BaseFragment(R.layout.fragment_account) {
             accountManagerViewModel.updateScreen(AccountScreen.LOGIN)
         }
 
-        viewModel.firebaseUserLiveData.observe(viewLifecycleOwner, Observer {
-            tvAccountName.text = it.displayName
-            tvAccountUsername.text = it.email
-        })
+        subscribeUI()
+    }
 
-        viewModel.navigateToLogin.observe(viewLifecycleOwner, Observer {
-            viewModel.logout()
-            accountManagerViewModel.updateScreen(AccountScreen.LOGIN)
-        })
+    private fun subscribeUI() {
+        with(viewModel) {
+            loadingLiveData.observe(viewLifecycleOwner, Observer {
+                pbLogout.isVisible = it
+                buttonLogout.isEnabled = !it
+            })
+
+            firebaseUserLiveData.observe(viewLifecycleOwner, Observer {
+                tvAccountName.text = it.displayName
+                tvAccountUsername.text = it.email
+            })
+
+            navigateToLogin.observe(viewLifecycleOwner, Observer {
+                viewModel.logout()
+                accountManagerViewModel.updateScreen(AccountScreen.LOGIN)
+            })
+        }
     }
 }
