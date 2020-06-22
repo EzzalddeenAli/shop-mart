@@ -6,7 +6,6 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
-
 android {
     compileSdkVersion 29
 
@@ -63,10 +62,14 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltAndroidXVersion"
     kapt "androidx.hilt:hilt-compiler:$hiltAndroidXVersion"
 
+    // Firebase
+    implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.4.3'
+    
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+
     // Dynamic Feature Module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-
-    implementation 'com.google.firebase:firebase-firestore-ktx:21.4.3'
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
