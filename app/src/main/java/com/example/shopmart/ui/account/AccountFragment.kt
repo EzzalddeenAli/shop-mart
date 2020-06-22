@@ -2,18 +2,18 @@ package com.example.shopmart.ui.account
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.shopmart.R
+import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.ui.accountmanager.AccountManagerViewModel
 import com.example.shopmart.util.AccountScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_account.*
 
 @AndroidEntryPoint
-class AccountFragment : Fragment(R.layout.fragment_account) {
+class AccountFragment : BaseFragment(R.layout.fragment_account) {
 
     private val viewModel by viewModels<AccountViewModel>()
 

@@ -7,13 +7,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import com.example.shopmart.R
+import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.ui.account.AccountFragment
 import com.example.shopmart.ui.login.LoginFragment
 import com.example.shopmart.util.AccountScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AccountManagerFragment : Fragment(R.layout.fragment_account_manager) {
+class AccountManagerFragment : BaseFragment(R.layout.fragment_account_manager) {
 
     private val viewModel by activityViewModels<AccountManagerViewModel>()
 

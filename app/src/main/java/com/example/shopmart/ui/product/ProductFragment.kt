@@ -2,16 +2,15 @@ package com.example.shopmart.ui.product
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.shopmart.R
+import com.example.shopmart.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_product.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @AndroidEntryPoint
-class ProductFragment : Fragment(R.layout.fragment_product) {
+class ProductFragment : BaseFragment(R.layout.fragment_product) {
 
     private val viewModel by viewModels<ProductViewModel>()
 

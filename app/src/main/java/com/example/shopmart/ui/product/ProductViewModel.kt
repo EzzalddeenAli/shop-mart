@@ -2,16 +2,15 @@ package com.example.shopmart.ui.product
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopmart.data.model.Product
 import com.example.shopmart.data.repository.ProductRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.example.shopmart.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class ProductViewModel @ViewModelInject constructor(
     private val productRepository: ProductRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     var productListLiveData = MutableLiveData<List<Product>>()
 

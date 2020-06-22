@@ -4,8 +4,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.shopmart.Event
+import com.example.shopmart.ui.base.BaseViewModel
 import com.example.shopmart.util.IS_LOGGED_IN
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
@@ -16,7 +16,7 @@ import timber.log.Timber
 class LoginViewModel @ViewModelInject constructor(
     private val sharedPreferences: SharedPreferences,
     private val firebaseAuth: FirebaseAuth
-) : ViewModel() {
+) : BaseViewModel() {
 
     val signInSuccess = MutableLiveData<Event<Unit>>()
 
