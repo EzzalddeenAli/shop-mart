@@ -37,10 +37,10 @@
         tools:text="199" />
 
     <Button
-        android:id="@+id/buttonCheckout"
+        android:id="@+id/buttonAddToCart"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/checkout"
+        android:text="@string/add_to_cart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

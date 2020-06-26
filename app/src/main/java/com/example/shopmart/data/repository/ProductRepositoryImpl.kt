@@ -1,9 +1,11 @@
 package com.example.shopmart.data.repository
 
 import android.util.Log
+import com.example.shopmart.data.model.Cart
 import com.example.shopmart.data.model.Product
-import com.example.shopmart.ui.product.ProductViewModel
-import com.example.shopmart.ui.product.ProductViewModel.Companion.PRODUCT
+import com.example.shopmart.util.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -13,8 +15,11 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class ProductRepositoryImpl @Inject constructor(
-    private val firebaseFirestore: FirebaseFirestore
-): ProductRepository {
+    private val firebaseFirestore: FirebaseFirestore,
+    private val firebaseAuth: FirebaseAuth
+) : ProductRepository {
+
+    private var firebaseUser: FirebaseUser? = firebaseAuth.currentUser
 
     override suspend fun getProduct(): List<Product> {
         return withContext(Dispatchers.IO) {
@@ -25,8 +30,9 @@ class ProductRepositoryImpl @Inject constructor(
                     for (productSnapshot in it) {
                         productList.add(
                             Product(
-                                productSnapshot.data[ProductViewModel.NAME] as String,
-                                productSnapshot.data[ProductViewModel.PRICE] as Long
+                                productSnapshot.id,
+                                productSnapshot.data[NAME] as String,
+                                productSnapshot.data[PRICE] as Long
                             )
                         )
                     }
@@ -49,6 +55,25 @@ class ProductRepositoryImpl @Inject constructor(
                         Log.w(TAG, "Error adding document", e)
                         continuation.resumeWithException(e)
                     }
+            }
+        }
+    }
+
+    override suspend fun addToCart(cart: Cart): Boolean {
+        return withContext(Dispatchers.IO) {
+            suspendCoroutine<Boolean> { continuation ->
+                firebaseUser?.let {
+                    firebaseFirestore.collection(
+                        String.format("%s/%s/%s", ACCOUNT, it.uid, CART)
+                    ).document(cart.productId).set(cart)
+                        .addOnSuccessListener {
+                            continuation.resume(true)
+                        }
+                        .addOnFailureListener { e ->
+                            continuation.resumeWithException(e)
+                        }
+                }
+
             }
         }
     }

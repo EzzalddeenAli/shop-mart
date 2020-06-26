@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.shopmart.data.model.Product
 import com.example.shopmart.data.repository.ProductRepository
 import com.example.shopmart.ui.base.BaseViewModel
+import com.example.shopmart.util.NAME
+import com.example.shopmart.util.PRICE
 import kotlinx.coroutines.launch
 
 class ProductViewModel @ViewModelInject constructor(
@@ -42,12 +44,6 @@ class ProductViewModel @ViewModelInject constructor(
                 getData()
             }
         }
-    }
-
-    companion object {
-        const val PRODUCT = "product"
-        const val NAME = "name"
-        const val PRICE = "price"
     }
 
 }

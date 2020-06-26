@@ -7,3 +7,9 @@ enum class AccountScreen {
     SIGNUP,
     ACCOUNT
 }
+
+const val ACCOUNT = "account"
+const val CART = "cart"
+const val PRODUCT = "product"
+const val NAME = "name"
+const val PRICE = "price"
