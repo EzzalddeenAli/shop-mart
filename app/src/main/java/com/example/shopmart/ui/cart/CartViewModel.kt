@@ -1,4 +1,4 @@
-package com.example.shopmart.ui.detail
+package com.example.shopmart.ui.cart
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
@@ -8,18 +8,23 @@ import com.example.shopmart.data.repository.cart.CartRepository
 import com.example.shopmart.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 
-class ProductDetailViewModel @ViewModelInject constructor(
+class CartViewModel @ViewModelInject constructor(
     private val cartRepository: CartRepository
 ) : BaseViewModel() {
 
     var loadingLiveData = MutableLiveData<Boolean>()
 
-    fun addToCart(productId: String) {
+    val cartLiveData = MutableLiveData<List<Cart>>()
+
+    init {
+        getCart()
+    }
+
+    fun getCart() {
         viewModelScope.launch {
             loadingLiveData.value = true
-            cartRepository.addToCart(Cart(productId, 1))
+            cartLiveData.value = cartRepository.getCartList()
             loadingLiveData.value = false
         }
     }
-
 }

@@ -1,9 +1,10 @@
 package com.example.shopmart.di
 
-import com.example.shopmart.data.repository.ProductRepository
-import com.example.shopmart.data.repository.ProductRepositoryImpl
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.shopmart.data.repository.cart.CartRepository
+import com.example.shopmart.data.repository.cart.CartRepositoryImpl
+import com.example.shopmart.data.repository.product.ProductRepository
+import com.example.shopmart.data.repository.product.ProductRepositoryImpl
+import com.google.firebase.firestore.CollectionReference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +19,18 @@ object RepositoryModule {
     @ExperimentalCoroutinesApi
     @Singleton
     @Provides
-    fun provideProductRepository(firebaseFirestore: FirebaseFirestore, firebaseAuth: FirebaseAuth): ProductRepository =
-        ProductRepositoryImpl(firebaseFirestore, firebaseAuth)
+    fun provideProductRepository(
+        @ProductReference productReference: CollectionReference
+    ): ProductRepository =
+        ProductRepositoryImpl(productReference)
+
+    @ExperimentalCoroutinesApi
+    @Singleton
+    @Provides
+    fun provideCartRepository(
+        @ProductReference productReference: CollectionReference,
+        @CartReference cartReference: CollectionReference?
+    ): CartRepository =
+        CartRepositoryImpl(cartReference, productReference)
 
 }

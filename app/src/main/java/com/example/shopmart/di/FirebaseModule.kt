@@ -1,53 +1,59 @@
 package com.example.shopmart.di
 
-import android.content.Context
-import android.content.Intent
-import com.example.shopmart.R
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.example.shopmart.util.ACCOUNT
+import com.example.shopmart.util.CART
+import com.example.shopmart.util.PRODUCT
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
 object FirebaseModule {
-
     @Singleton
     @Provides
-    fun provideFirebaseFirestore(): FirebaseFirestore {
-        return FirebaseFirestore.getInstance()
-    }
+    fun provideFirebaseFirestore(): FirebaseFirestore =
+        FirebaseFirestore.getInstance()
 
-    @Singleton
     @Provides
-    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
-
     @Singleton
-    @Provides
-    fun provideGoogleSignInOptions(@ApplicationContext context: Context): GoogleSignInOptions =
-        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(context.getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+    fun provideFirebaseAuth(): FirebaseAuth =
+        FirebaseAuth.getInstance()
 
+    @Provides
     @Singleton
-    @Provides
-    fun provideSignInIntent(googleSignInClient: GoogleSignInClient): Intent =
-        googleSignInClient.signInIntent
+    fun provideFirebaseUser(firebaseAuth: FirebaseAuth): FirebaseUser? =
+        firebaseAuth.currentUser
 
-    @Singleton
     @Provides
-    fun provideGoogleSignInClient(
-        @ApplicationContext context: Context,
-        googleSignInOptions: GoogleSignInOptions
-    ): GoogleSignInClient =
-        GoogleSignIn.getClient(context, googleSignInOptions)
+    @ProductReference
+    fun provideProductReference(firebaseFirestore: FirebaseFirestore): CollectionReference =
+        firebaseFirestore.collection(PRODUCT)
 
+    @Provides
+    @CartReference
+    fun provideCartReference(
+        firebaseFirestore: FirebaseFirestore,
+        firebaseUser: FirebaseUser?
+    ): CollectionReference? =
+        firebaseUser?.let {
+            firebaseFirestore.collection(
+                String.format("%s/%s/%s", ACCOUNT, it.uid, CART)
+            )
+        }
 }
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ProductReference
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class CartReference

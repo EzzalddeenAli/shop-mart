@@ -4,7 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.shopmart.data.model.Product
-import com.example.shopmart.data.repository.ProductRepository
+import com.example.shopmart.data.repository.product.ProductRepository
 import com.example.shopmart.ui.base.BaseViewModel
 import com.example.shopmart.util.NAME
 import com.example.shopmart.util.PRICE
@@ -22,7 +22,7 @@ class ProductViewModel @ViewModelInject constructor(
         getData()
     }
 
-    private fun getData() {
+    fun getData() {
         viewModelScope.launch {
             loadingLiveData.value = true
             productListLiveData.value = productRepository.getProduct()

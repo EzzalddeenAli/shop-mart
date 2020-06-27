@@ -25,6 +25,10 @@ class ProductFragment : BaseFragment(R.layout.fragment_product) {
             viewModel.addProduct()
         }
 
+        swipeRefreshLayoutProduct.setOnRefreshListener {
+            viewModel.getData()
+        }
+
         subscribeUI()
     }
 
