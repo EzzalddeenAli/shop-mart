@@ -15,6 +15,7 @@
  */
 package com.example.shopmart
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 
 /**
@@ -56,4 +57,8 @@ class EventObserver<T>(private val onEventUnhandledContent: (T) -> Unit) : Obser
             onEventUnhandledContent(it)
         }
     }
+}
+
+fun <T> MutableLiveData<Event<T>>.invoke() {
+    this.value = null
 }

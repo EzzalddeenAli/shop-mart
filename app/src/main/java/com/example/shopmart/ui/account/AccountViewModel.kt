@@ -1,42 +1,32 @@
 package com.example.shopmart.ui.account
 
-import android.content.SharedPreferences
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.example.shopmart.Event
+import com.example.shopmart.data.repository.account.AccountRepository
+import com.example.shopmart.invoke
 import com.example.shopmart.ui.base.BaseViewModel
-import com.example.shopmart.util.IS_LOGGED_IN
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 class AccountViewModel @ViewModelInject constructor(
-    private val sharedPreferences: SharedPreferences,
-    private val firebaseAuth: FirebaseAuth
+    private val accountRepository: AccountRepository
 ) : BaseViewModel() {
-
-    val loadingLiveData = MutableLiveData<Boolean>()
 
     val firebaseUserLiveData = MutableLiveData<FirebaseUser>()
 
     val navigateToLogin = MutableLiveData<Event<Unit>>()
 
     init {
-        val currentUser = firebaseAuth.currentUser
+        val currentUser = accountRepository.getCurrentUser()
         if (currentUser != null) {
             firebaseUserLiveData.value = currentUser
         } else {
-            navigateToLogin.value = null
+            navigateToLogin.invoke()
         }
     }
 
     fun logout() {
-        loadingLiveData.value = true
-        firebaseAuth.signOut()
-        with(sharedPreferences.edit()) {
-            remove(IS_LOGGED_IN)
-            apply()
-        }
-        loadingLiveData.value = false
+        accountRepository.signOut()
     }
 
 }

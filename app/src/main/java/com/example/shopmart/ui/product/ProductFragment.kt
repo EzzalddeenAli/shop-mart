@@ -21,15 +21,17 @@ class ProductFragment : BaseFragment(R.layout.fragment_product) {
 
         recyclerViewProduct.adapter = productViewAdapter
 
-        buttonAddProduct.setOnClickListener {
-            viewModel.addProduct()
-        }
-
-        swipeRefreshLayoutProduct.setOnRefreshListener {
-            viewModel.getData()
-        }
+        eventUI()
 
         subscribeUI()
+    }
+
+    private fun eventUI() {
+        with(viewModel) {
+            buttonAddProduct.setOnClickListener { addProduct() }
+
+            swipeRefreshLayoutProduct.setOnRefreshListener { getData() }
+        }
     }
 
     private fun subscribeUI() {

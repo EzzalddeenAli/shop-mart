@@ -21,11 +21,15 @@ class CartFragment : BaseFragment(R.layout.fragment_cart) {
 
         recyclerViewCart.adapter = cartAdapter
 
-        swipeRefreshLayoutCart.setOnRefreshListener {
-            viewModel.getCart()
-        }
+        eventUI()
 
         subscribeUI()
+    }
+
+    private fun eventUI() {
+        with(viewModel) {
+            swipeRefreshLayoutCart.setOnRefreshListener { getCart() }
+        }
     }
 
     private fun subscribeUI() {

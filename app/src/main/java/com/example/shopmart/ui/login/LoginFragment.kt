@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import com.example.shopmart.R
 import com.example.shopmart.ui.accountmanager.AccountManagerViewModel
 import com.example.shopmart.ui.base.BaseFragment
+import com.example.shopmart.ui.login.LoginViewModel.Companion.RC_SIGN_IN
 import com.example.shopmart.util.AccountScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -28,11 +29,15 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        eventUI()
+
+        subscribeUI()
+    }
+
+    private fun eventUI() {
         buttonLogin.setOnClickListener {
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
-
-        subscribeUI()
     }
 
     private fun subscribeUI() {
@@ -52,14 +57,6 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == RC_SIGN_IN) {
-            viewModel.signIn(data)
-        }
+        viewModel.onActivityResult(requestCode, data)
     }
-
-    companion object {
-        const val RC_SIGN_IN = 1
-    }
-
 }

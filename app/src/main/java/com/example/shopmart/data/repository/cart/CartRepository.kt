@@ -4,7 +4,7 @@ import com.example.shopmart.data.model.Cart
 
 interface CartRepository {
 
-    suspend fun addToCart(cart: Cart): Boolean
+    suspend fun addToCart(cart: Cart)
 
     suspend fun getCartList(): List<Cart>
 }

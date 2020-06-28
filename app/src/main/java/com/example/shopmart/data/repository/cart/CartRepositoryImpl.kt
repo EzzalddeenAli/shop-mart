@@ -5,33 +5,38 @@ import com.example.shopmart.data.model.Product
 import com.example.shopmart.util.NAME
 import com.example.shopmart.util.PRICE
 import com.example.shopmart.util.QUANTITY
+import com.example.shopmart.util.getCartReference
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class CartRepositoryImpl @Inject constructor(
-    private val myCartReference: CollectionReference?,
+    private val firebaseFirestore: FirebaseFirestore,
     private val productReference: CollectionReference
 ) : CartRepository {
 
-    override suspend fun addToCart(cart: Cart): Boolean {
+    override suspend fun addToCart(cart: Cart) {
         return withContext(Dispatchers.IO) {
-            suspendCoroutine<Boolean> { continuation ->
-                myCartReference
-                    ?.document(cart.productId)
-                    ?.set(cart)
-                    ?.addOnSuccessListener {
-                        continuation.resume(true)
-                    }
-                    ?.addOnFailureListener { e ->
-                        continuation.resumeWithException(e)
-                    }
+            suspendCoroutine<Unit> { continuation ->
+                val cartReference = getCartReference(firebaseFirestore)
+                if (cartReference != null) {
+                    cartReference.document(cart.productId)
+                        .set(cart)
+                        .addOnSuccessListener {
+                            continuation.resume(Unit)
+                        }
+                        .addOnFailureListener { e ->
+                            continuation.resumeWithException(e)
+                        }
+                } else {
+                    continuation.resumeWithException(Exception("Not logged in"))
+                }
             }
         }
     }
@@ -39,46 +44,43 @@ class CartRepositoryImpl @Inject constructor(
     override suspend fun getCartList(): List<Cart> {
         return withContext(Dispatchers.IO) {
             suspendCoroutine<List<Cart>> { continuation ->
-                getMyCart { cartList ->
-                    getProductListByIds(cartList) {
-                        continuation.resume(cartList)
+                runCatching {
+                    getMyCart { cartList ->
+                        getProductListByIds(cartList) { continuation.resume(cartList) }
                     }
+                }.onFailure {
+                    continuation.resumeWithException(it)
                 }
             }
         }
     }
 
-    private fun getMyCart(function: (cartList: MutableList<Cart>) -> Unit) {
-        myCartReference
-            ?.get()
-            ?.addOnSuccessListener { querySnapshot ->
-                val cartList = mutableListOf<Cart>()
-                for (cartSnapshot in querySnapshot) {
-                    cartList.add(
-                        Cart(
-                            cartSnapshot.id,
-                            cartSnapshot.data[QUANTITY] as Long
+    private fun getMyCart(success: (cartList: MutableList<Cart>) -> Unit) {
+        val cartReference = getCartReference(firebaseFirestore)
+        if (cartReference != null) {
+            cartReference.get()
+                .addOnSuccessListener { querySnapshot ->
+                    val cartList = mutableListOf<Cart>()
+                    for (cartSnapshot in querySnapshot) {
+                        cartList.add(
+                            Cart(
+                                cartSnapshot.id,
+                                cartSnapshot.data[QUANTITY] as Long
+                            )
                         )
-                    )
+                    }
+                    success(cartList)
                 }
-                function(cartList)
-            }
-            ?.addOnFailureListener {
-                Timber.e(it)
-            }
+                .addOnFailureListener {
+                    throw Exception(it)
+                }
+        } else {
+            throw Exception("Not logged in")
+        }
     }
 
-    private fun getProductListByIds(
-        cartList: MutableList<Cart>,
-        done: () -> Unit
-    ) {
+    private fun getProductListByIds(cartList: MutableList<Cart>, success: () -> Unit) {
         val productIds = cartList.map { it.productId }
-
-        if (productIds.isEmpty()) {
-            done()
-            return
-        }
-
         productReference.whereIn(FieldPath.documentId(), productIds).get()
             .addOnSuccessListener { productSnapshot ->
                 for ((i, productDocument) in productSnapshot.withIndex()) {
@@ -88,12 +90,10 @@ class CartRepositoryImpl @Inject constructor(
                         productDocument.data[PRICE] as Long
                     )
                 }
-                done()
+                success()
             }
             .addOnFailureListener {
-                Timber.e(it)
+                throw Exception(it)
             }
     }
-
-
 }

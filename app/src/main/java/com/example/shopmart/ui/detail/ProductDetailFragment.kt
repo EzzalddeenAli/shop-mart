@@ -25,11 +25,20 @@ class ProductDetailFragment : BaseFragment(R.layout.fragment_product_detail) {
 
         setData()
 
-        buttonAddToCart.setOnClickListener {
-            viewModel.addToCart(product.id)
-        }
+        eventUI()
 
         subscribeUI()
+    }
+
+    private fun setData() {
+        tvProductName.text = product.name
+        tvProductPrice.text = product.price.toString()
+    }
+
+    private fun eventUI() {
+        with(viewModel) {
+            buttonAddToCart.setOnClickListener { addToCart(product.id) }
+        }
     }
 
     private fun subscribeUI() {
@@ -38,10 +47,5 @@ class ProductDetailFragment : BaseFragment(R.layout.fragment_product_detail) {
                 buttonAddToCart.isEnabled = !it
             })
         }
-    }
-
-    private fun setData() {
-        tvProductName.text = product.name
-        tvProductPrice.text = product.price.toString()
     }
 }

@@ -1,10 +1,14 @@
 package com.example.shopmart.di
 
+import android.content.SharedPreferences
+import com.example.shopmart.data.repository.account.AccountRepository
+import com.example.shopmart.data.repository.account.AccountRepositoryImpl
 import com.example.shopmart.data.repository.cart.CartRepository
 import com.example.shopmart.data.repository.cart.CartRepositoryImpl
 import com.example.shopmart.data.repository.product.ProductRepository
 import com.example.shopmart.data.repository.product.ProductRepositoryImpl
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,13 +28,19 @@ object RepositoryModule {
     ): ProductRepository =
         ProductRepositoryImpl(productReference)
 
-    @ExperimentalCoroutinesApi
     @Singleton
     @Provides
     fun provideCartRepository(
         @ProductReference productReference: CollectionReference,
-        @CartReference cartReference: CollectionReference?
+        firebaseFirestore: FirebaseFirestore
     ): CartRepository =
-        CartRepositoryImpl(cartReference, productReference)
+        CartRepositoryImpl(firebaseFirestore, productReference)
+
+    @Singleton
+    @Provides
+    fun provideAccountRepository(
+        sharedPreferences: SharedPreferences
+    ): AccountRepository =
+        AccountRepositoryImpl(sharedPreferences)
 
 }
