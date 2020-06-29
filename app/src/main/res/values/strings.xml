@@ -20,4 +20,6 @@
     <string name="home">Home</string>
     <string name="product">Product</string>
     <string name="detail">Detail</string>
+    <string name="message_sign_in">Please sign in first</string>
+    <string name="sign_in">Sign in</string>
 </resources>

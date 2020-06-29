@@ -39,6 +39,12 @@
         <argument
             android:name="product"
             app:argType="com.example.shopmart.data.model.Product" />
+
+        <action
+            android:id="@+id/productDetail_to_accountManager"
+            app:destination="@id/fragmentAccountManager"
+            app:popUpTo="@id/productDetailFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

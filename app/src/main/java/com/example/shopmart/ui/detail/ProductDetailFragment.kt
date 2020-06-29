@@ -2,8 +2,10 @@ package com.example.shopmart.ui.detail
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shopmart.R
 import com.example.shopmart.data.model.Product
@@ -50,10 +52,21 @@ class ProductDetailFragment : BaseFragment(R.layout.fragment_product_detail) {
             })
 
             errorLiveData.observe(viewLifecycleOwner, Observer {
-                Snackbar.make(requireView(), "Please sign in first", Snackbar.LENGTH_SHORT).show()
+                showSignInDialog()
             })
 
             view?.setupSnackbar(viewLifecycleOwner, snackBarLiveData, Snackbar.LENGTH_SHORT)
         }
+    }
+
+    private fun showSignInDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.message_sign_in)
+            .setPositiveButton(getString(R.string.sign_in)) { _, _ ->
+                findNavController().navigate(
+                    ProductDetailFragmentDirections.productDetailToAccountManager()
+                )
+            }
+            .show()
     }
 }
