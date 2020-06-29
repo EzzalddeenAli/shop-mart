@@ -28,8 +28,6 @@ class ProductFragment : BaseFragment(R.layout.fragment_product) {
 
     private fun eventUI() {
         with(viewModel) {
-            buttonAddProduct.setOnClickListener { addProduct() }
-
             swipeRefreshLayoutProduct.setOnRefreshListener { getData() }
         }
     }

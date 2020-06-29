@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/fragmentProduct">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.shopmart.ui.home.HomeFragment"
-        android:label="Blank"
-        tools:layout="@layout/fragment_home">
+        android:id="@+id/fragmentProduct"
+        android:name="com.example.shopmart.ui.product.ProductFragment"
+        android:label="@string/product"
+        tools:layout="@layout/fragment_product">
         <action
-            android:id="@+id/home_to_productDetail"
+            android:id="@+id/product_to_productDetail"
             app:destination="@id/productDetailFragment">
             <argument
                 android:name="product"
@@ -20,9 +20,21 @@
     </fragment>
 
     <fragment
+        android:id="@+id/fragmentAccountManager"
+        android:name="com.example.shopmart.ui.accountmanager.AccountManagerFragment"
+        android:label="@string/my_account"
+        tools:layout="@layout/fragment_account_manager" />
+
+    <fragment
+        android:id="@+id/fragmentCart"
+        android:name="com.example.shopmart.ui.cart.CartFragment"
+        android:label="@string/cart"
+        tools:layout="@layout/fragment_cart" />
+
+    <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.example.shopmart.ui.detail.ProductDetailFragment"
-        android:label="Detail"
+        android:label="@string/detail"
         tools:layout="@layout/fragment_product_detail">
         <argument
             android:name="product"

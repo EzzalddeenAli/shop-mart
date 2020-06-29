@@ -32,23 +32,10 @@ class ProductRepositoryImpl @Inject constructor(
                         }
                         continuation.resume(productList)
                     }
-            }
-        }
-    }
-
-    override suspend fun addProduct(product: HashMap<String, Any>): Boolean {
-        return withContext(Dispatchers.IO) {
-            suspendCoroutine<Boolean> { continuation ->
-                productReference
-                    .add(product)
-                    .addOnSuccessListener {
-                        continuation.resume(true)
-                    }
-                    .addOnFailureListener { e ->
-                        continuation.resumeWithException(e)
+                    .addOnFailureListener {
+                        continuation.resumeWithException(it)
                     }
             }
         }
     }
-
 }

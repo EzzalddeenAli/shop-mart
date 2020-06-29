@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.shopmart.data.model.Product
 import com.example.shopmart.data.repository.product.ProductRepository
 import com.example.shopmart.ui.base.BaseViewModel
-import com.example.shopmart.util.NAME
-import com.example.shopmart.util.PRICE
 
 class ProductViewModel @ViewModelInject constructor(
     private val productRepository: ProductRepository
@@ -23,16 +21,4 @@ class ProductViewModel @ViewModelInject constructor(
             productListLiveData.value = productRepository.getProduct()
         }
     }
-
-    fun addProduct() {
-        launch {
-            productRepository.addProduct(
-                hashMapOf(
-                    NAME to "Lamp Shade",
-                    PRICE to 199
-                )
-            )
-        }
-    }
-
 }
