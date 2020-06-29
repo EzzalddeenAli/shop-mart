@@ -12,6 +12,8 @@ import com.example.shopmart.ui.accountmanager.AccountManagerViewModel
 import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.ui.login.LoginViewModel.Companion.RC_SIGN_IN
 import com.example.shopmart.util.AccountScreen
+import com.example.shopmart.util.setupSnackbar
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
@@ -42,8 +44,14 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     private fun subscribeUI() {
         with(viewModel) {
+            view?.setupSnackbar(viewLifecycleOwner, snackBarLiveData, Snackbar.LENGTH_SHORT)
+
             signInSuccess.observe(viewLifecycleOwner, Observer {
                 accountManagerViewModel.updateScreen(AccountScreen.ACCOUNT)
+            })
+
+            errorLiveData.observe(viewLifecycleOwner, Observer {
+                Snackbar.make(requireView(), it.message!!, Snackbar.LENGTH_SHORT).show()
             })
 
             loadingLiveData.observe(viewLifecycleOwner, Observer {

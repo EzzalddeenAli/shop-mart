@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.example.shopmart.EventObserver
 import com.example.shopmart.R
 import com.example.shopmart.ui.accountmanager.AccountManagerViewModel
 import com.example.shopmart.ui.base.BaseFragment
@@ -43,7 +44,7 @@ class AccountFragment : BaseFragment(R.layout.fragment_account) {
                 tvAccountUsername.text = it.email
             })
 
-            navigateToLogin.observe(viewLifecycleOwner, Observer {
+            navigateToLogin.observe(viewLifecycleOwner, EventObserver {
                 viewModel.logout()
                 accountManagerViewModel.updateScreen(AccountScreen.LOGIN)
             })

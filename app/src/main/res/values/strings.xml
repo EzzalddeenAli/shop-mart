@@ -12,4 +12,8 @@
     <string name="logout">Logout</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="cart">Cart</string>
+    <string name="added_to_cart">Added To Cart</string>
+    <string name="retry">Retry</string>
+    <string name="successfully_login">Successfully Login</string>
+    <string name="no_account">No Account</string>
 </resources>

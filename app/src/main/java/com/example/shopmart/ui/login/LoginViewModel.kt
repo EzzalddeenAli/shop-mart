@@ -4,8 +4,8 @@ import android.content.Intent
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.example.shopmart.Event
+import com.example.shopmart.R
 import com.example.shopmart.data.repository.account.AccountRepository
-import com.example.shopmart.invoke
 import com.example.shopmart.ui.base.BaseViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
@@ -14,14 +14,15 @@ class LoginViewModel @ViewModelInject constructor(
     private val accountRepository: AccountRepository
 ) : BaseViewModel() {
 
-    val signInSuccess = MutableLiveData<Event<Unit>>()
+    val signInSuccess = MutableLiveData<Unit>()
 
     private fun signIn(data: Intent?) {
         launch {
             val account =
                 GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException::class.java)
             accountRepository.firebaseAuthWithGoogle(account?.idToken)
-            signInSuccess.invoke()
+            snackBarLiveData.value = Event(R.string.successfully_login)
+            signInSuccess.value = null
         }
     }
 

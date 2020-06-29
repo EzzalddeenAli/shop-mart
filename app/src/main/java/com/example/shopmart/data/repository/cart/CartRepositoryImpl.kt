@@ -2,6 +2,7 @@ package com.example.shopmart.data.repository.cart
 
 import com.example.shopmart.data.model.Cart
 import com.example.shopmart.data.model.Product
+import com.example.shopmart.exception.NoAccount
 import com.example.shopmart.util.NAME
 import com.example.shopmart.util.PRICE
 import com.example.shopmart.util.QUANTITY
@@ -35,7 +36,7 @@ class CartRepositoryImpl @Inject constructor(
                             continuation.resumeWithException(e)
                         }
                 } else {
-                    continuation.resumeWithException(Exception("Not logged in"))
+                    continuation.resumeWithException(NoAccount())
                 }
             }
         }
@@ -75,7 +76,7 @@ class CartRepositoryImpl @Inject constructor(
                     throw Exception(it)
                 }
         } else {
-            throw Exception("Not logged in")
+            throw NoAccount()
         }
     }
 

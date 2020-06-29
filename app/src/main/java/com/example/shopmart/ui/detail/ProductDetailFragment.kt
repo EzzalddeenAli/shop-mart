@@ -8,6 +8,8 @@ import androidx.navigation.fragment.navArgs
 import com.example.shopmart.R
 import com.example.shopmart.data.model.Product
 import com.example.shopmart.ui.base.BaseFragment
+import com.example.shopmart.util.setupSnackbar
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_product_detail.*
 
@@ -46,6 +48,12 @@ class ProductDetailFragment : BaseFragment(R.layout.fragment_product_detail) {
             loadingLiveData.observe(viewLifecycleOwner, Observer {
                 buttonAddToCart.isEnabled = !it
             })
+
+            errorLiveData.observe(viewLifecycleOwner, Observer {
+                Snackbar.make(requireView(), "Please sign in first", Snackbar.LENGTH_SHORT).show()
+            })
+
+            view?.setupSnackbar(viewLifecycleOwner, snackBarLiveData, Snackbar.LENGTH_SHORT)
         }
     }
 }
