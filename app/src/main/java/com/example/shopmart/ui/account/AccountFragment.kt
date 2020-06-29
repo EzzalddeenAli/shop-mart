@@ -6,8 +6,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.example.shopmart.EventObserver
 import com.example.shopmart.R
+import com.example.shopmart.ui.main.MainViewModel
 import com.example.shopmart.ui.accountmanager.AccountManagerViewModel
 import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.util.AccountScreen
@@ -21,12 +21,15 @@ class AccountFragment : BaseFragment(R.layout.fragment_account) {
 
     private val accountManagerViewModel by activityViewModels<AccountManagerViewModel>()
 
+    private val mainViewModel by activityViewModels<MainViewModel>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         buttonLogout.setOnClickListener {
             viewModel.logout()
             accountManagerViewModel.updateScreen(AccountScreen.LOGIN)
+            mainViewModel.checkAccount()
         }
 
         subscribeUI()
@@ -42,11 +45,6 @@ class AccountFragment : BaseFragment(R.layout.fragment_account) {
             firebaseUserLiveData.observe(viewLifecycleOwner, Observer {
                 tvAccountName.text = it.displayName
                 tvAccountUsername.text = it.email
-            })
-
-            navigateToLogin.observe(viewLifecycleOwner, EventObserver {
-                viewModel.logout()
-                accountManagerViewModel.updateScreen(AccountScreen.LOGIN)
             })
         }
     }

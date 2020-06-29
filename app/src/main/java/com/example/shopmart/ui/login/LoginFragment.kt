@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.shopmart.R
+import com.example.shopmart.ui.main.MainViewModel
 import com.example.shopmart.ui.accountmanager.AccountManagerViewModel
 import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.ui.login.LoginViewModel.Companion.RC_SIGN_IN
@@ -24,6 +25,8 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     private val viewModel by viewModels<LoginViewModel>()
 
     private val accountManagerViewModel by activityViewModels<AccountManagerViewModel>()
+
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     @Inject
     lateinit var signInIntent: Intent
@@ -48,6 +51,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
             signInSuccess.observe(viewLifecycleOwner, Observer {
                 accountManagerViewModel.updateScreen(AccountScreen.ACCOUNT)
+                mainViewModel.checkAccount()
             })
 
             errorLiveData.observe(viewLifecycleOwner, Observer {
