@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.shopmart.R
+import com.example.shopmart.exception.EmptyCart
 import com.example.shopmart.exception.NoAccount
 import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.util.setupSnackbar
+import com.example.shopmart.util.showEmptyCartView
 import com.example.shopmart.util.showNoAccountView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +22,11 @@ class CartFragment : BaseFragment(R.layout.fragment_cart) {
 
     private val viewModel by viewModels<CartViewModel>()
 
-    private val cartAdapter = CartAdapter()
+    private val cartAdapter = CartAdapter(remove = {
+        viewModel.removeToCart(it)
+    }, add = {
+        viewModel.addToCart(it)
+    })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,8 +62,13 @@ class CartFragment : BaseFragment(R.layout.fragment_cart) {
                         cartAdapter.setCartList(emptyList())
                         clCartParent.showNoAccountView { getCart() }
                     }
+                    is EmptyCart -> {
+                        clCartParent.showEmptyCartView {
+                            findNavController().navigate(CartFragmentDirections.cartToProduct())
+                        }
+                    }
                     else -> {
-                        Timber.e("else no account ${it.message}")
+                        Timber.e("not handle error ${it.message}")
                     }
                 }
             })

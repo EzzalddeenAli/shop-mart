@@ -2,6 +2,7 @@ package com.example.shopmart.data.repository.cart
 
 import com.example.shopmart.data.model.Cart
 import com.example.shopmart.data.model.Product
+import com.example.shopmart.exception.EmptyCart
 import com.example.shopmart.exception.NoAccount
 import com.example.shopmart.util.NAME
 import com.example.shopmart.util.PRICE
@@ -9,6 +10,7 @@ import com.example.shopmart.util.QUANTITY
 import com.example.shopmart.util.getCartReference
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -42,12 +44,56 @@ class CartRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun plusToCart(cart: Cart) {
+        updateCart(cart, 1)
+    }
+
+    override suspend fun minusToCart(cart: Cart) {
+        updateCart(cart, -1)
+    }
+
+    private suspend fun updateCart(cart: Cart, value: Long) {
+        return withContext(Dispatchers.IO) {
+            suspendCoroutine<Unit> { continuation ->
+                kotlin.runCatching {
+                    getCartReference(firebaseFirestore)!!
+                        .document(cart.productId)
+                        .update(QUANTITY, FieldValue.increment(value))
+                        .addOnSuccessListener { continuation.resume(Unit) }
+                        .addOnFailureListener { continuation.resumeWithException(it) }
+                }.onFailure {
+                    continuation.resumeWithException(it)
+                }
+            }
+        }
+    }
+
+    override suspend fun removeToCart(cart: Cart) {
+        return withContext(Dispatchers.IO) {
+            suspendCoroutine<Unit> { continuation ->
+                kotlin.runCatching {
+                    getCartReference(firebaseFirestore)!!
+                        .document(cart.productId)
+                        .delete()
+                        .addOnSuccessListener { continuation.resume(Unit) }
+                        .addOnFailureListener { continuation.resumeWithException(it) }
+                }.onFailure {
+                    continuation.resumeWithException(it)
+                }
+            }
+        }
+    }
+
     override suspend fun getCartList(): List<Cart> {
         return withContext(Dispatchers.IO) {
             suspendCoroutine<List<Cart>> { continuation ->
                 runCatching {
                     getMyCart { cartList ->
-                        getProductListByIds(cartList) { continuation.resume(cartList) }
+                        getProductListByIds(cartList, success = {
+                            continuation.resume(cartList)
+                        }, fail = {
+                            continuation.resumeWithException(it)
+                        })
                     }
                 }.onFailure {
                     continuation.resumeWithException(it)
@@ -80,7 +126,16 @@ class CartRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun getProductListByIds(cartList: MutableList<Cart>, success: () -> Unit) {
+    private fun getProductListByIds(
+        cartList: MutableList<Cart>,
+        success: () -> Unit,
+        fail: (exception: Exception) -> Unit
+    ) {
+        if (cartList.isEmpty()) {
+            fail(EmptyCart())
+            return
+        }
+
         val productIds = cartList.map { it.productId }
         productReference.whereIn(FieldPath.documentId(), productIds).get()
             .addOnSuccessListener { productSnapshot ->
@@ -94,7 +149,7 @@ class CartRepositoryImpl @Inject constructor(
                 success()
             }
             .addOnFailureListener {
-                throw Exception(it)
+                fail(it)
             }
     }
 }

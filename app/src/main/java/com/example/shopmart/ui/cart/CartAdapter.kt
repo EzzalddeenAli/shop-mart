@@ -9,7 +9,10 @@ import com.example.shopmart.data.model.Cart
 import kotlinx.android.synthetic.main.item_cart.view.*
 import timber.log.Timber
 
-class CartAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CartAdapter(
+    private val remove: (cart: Cart) -> Unit,
+    private val add: (cart: Cart) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var cartList = emptyList<Cart>()
 
@@ -31,8 +34,12 @@ class CartAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val cart = cartList[position]
         holder.itemView.apply {
-            tvProductId.text = cart.productId
             tvProductName?.text = cart.product?.name
+            tvProductQuantity?.text = cart.quantity.toString()
+
+            buttonRemove.setOnClickListener { remove(cart) }
+
+            buttonAdd.setOnClickListener { add(cart) }
         }
     }
 

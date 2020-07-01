@@ -17,6 +17,26 @@ class CartViewModel @ViewModelInject constructor(
     }
 
     fun getCart() {
-        launch { cartLiveData.value = cartRepository.getCartList() }
+        launch {
+            cartLiveData.value = cartRepository.getCartList()
+        }
+    }
+
+    fun removeToCart(cart: Cart) {
+        launch {
+            if (cart.quantity <= 1) {
+                cartRepository.removeToCart(cart)
+            } else {
+                cartRepository.minusToCart(cart)
+            }
+            getCart()
+        }
+    }
+
+    fun addToCart(cart: Cart) {
+        launch {
+            cartRepository.plusToCart(cart)
+            getCart()
+        }
     }
 }

@@ -29,7 +29,15 @@
         android:id="@+id/fragmentCart"
         android:name="com.example.shopmart.ui.cart.CartFragment"
         android:label="@string/cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart">
+
+        <action
+            android:id="@+id/cart_to_product"
+            app:destination="@id/fragmentProduct"
+            app:popUpTo="@id/fragmentProduct"
+            app:popUpToInclusive="true" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/productDetailFragment"

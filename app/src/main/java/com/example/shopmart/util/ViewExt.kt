@@ -28,6 +28,7 @@ import androidx.lifecycle.Observer
 import com.example.shopmart.Event
 import com.example.shopmart.R
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.layout_empty_cart.view.*
 import kotlinx.android.synthetic.main.layout_no_account.view.*
 
 /**
@@ -52,6 +53,18 @@ fun ViewGroup.showNoAccountView(retry: () -> Unit) {
     addView(noAccountView)
 
     noAccountView.buttonRetry.setOnClickListener {
+        removeView(noAccountView)
+        retry()
+    }
+}
+
+fun ViewGroup.showEmptyCartView(retry: () -> Unit) {
+    val noAccountView = LayoutInflater.from(context)
+        .inflate(R.layout.layout_empty_cart, this, false)
+
+    addView(noAccountView)
+
+    noAccountView.buttonShopNow.setOnClickListener {
         removeView(noAccountView)
         retry()
     }
