@@ -22,21 +22,28 @@ class CartViewModel @ViewModelInject constructor(
         }
     }
 
-    fun removeToCart(cart: Cart) {
+    fun removeToCart(cart: Cart, position: Int) {
         launch {
             if (cart.quantity <= 1) {
                 cartRepository.removeToCart(cart)
+                cartLiveData.value = cartLiveData.value?.toMutableList()?.apply {
+                    remove(cart)
+                }
             } else {
                 cartRepository.minusToCart(cart)
+                cartLiveData.value = cartLiveData.value?.apply {
+                    get(position).quantity -= 1
+                }
             }
-            getCart()
         }
     }
 
-    fun addToCart(cart: Cart) {
+    fun addToCart(cart: Cart, position: Int) {
         launch {
             cartRepository.plusToCart(cart)
-            getCart()
+            cartLiveData.value = cartLiveData.value?.apply {
+                get(position).quantity += 1
+            }
         }
     }
 }

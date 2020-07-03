@@ -6,7 +6,7 @@ data class Cart(
     @get:Exclude
     val productId: String,
 
-    val quantity: Long,
+    var quantity: Long,
 
     @get:Exclude
     var product: Product? = null

@@ -22,10 +22,10 @@ class CartFragment : BaseFragment(R.layout.fragment_cart) {
 
     private val viewModel by viewModels<CartViewModel>()
 
-    private val cartAdapter = CartAdapter(remove = {
-        viewModel.removeToCart(it)
-    }, add = {
-        viewModel.addToCart(it)
+    private val cartAdapter = CartAdapter(remove = { cart, position ->
+        viewModel.removeToCart(cart, position)
+    }, add = { cart, position ->
+        viewModel.addToCart(cart, position)
     })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,13 +53,13 @@ class CartFragment : BaseFragment(R.layout.fragment_cart) {
             })
 
             cartLiveData.observe(viewLifecycleOwner, Observer {
-                cartAdapter.setCartList(it)
+                cartAdapter.submitList(it)
             })
 
             errorLiveData.observe(viewLifecycleOwner, Observer {
                 when (it) {
                     is NoAccount -> {
-                        cartAdapter.setCartList(emptyList())
+                        cartAdapter.submitList(mutableListOf())
                         clCartParent.showNoAccountView { getCart() }
                     }
                     is EmptyCart -> {
