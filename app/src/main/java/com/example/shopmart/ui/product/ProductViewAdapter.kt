@@ -7,9 +7,13 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmart.R
 import com.example.shopmart.data.model.Product
+import com.example.shopmart.util.GlideApp
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.item_product.view.*
 
 class ProductViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val storage = FirebaseStorage.getInstance()
 
     private var productList = emptyList<Product>()
 
@@ -30,8 +34,17 @@ class ProductViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val product = productList[position]
         holder.itemView.apply {
-            tvName.text = product.name
-            tvPrice.text = product.price.toString()
+
+            val gsReference =
+                storage.getReferenceFromUrl(product.image)
+
+            GlideApp.with(context)
+                .load(gsReference)
+                .centerCrop()
+                .into(ivProductImage)
+
+            tvProductName.text = product.name
+            tvProductPrice.text = product.price.toString()
 
             setOnClickListener {
                 findNavController().navigate(

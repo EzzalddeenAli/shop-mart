@@ -4,10 +4,7 @@ import com.example.shopmart.data.model.Cart
 import com.example.shopmart.data.model.Product
 import com.example.shopmart.exception.EmptyCart
 import com.example.shopmart.exception.NoAccount
-import com.example.shopmart.util.NAME
-import com.example.shopmart.util.PRICE
-import com.example.shopmart.util.QUANTITY
-import com.example.shopmart.util.getCartReference
+import com.example.shopmart.util.*
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
@@ -143,6 +140,7 @@ class CartRepositoryImpl @Inject constructor(
                     cartList[i].product = Product(
                         productDocument.id,
                         productDocument.data[NAME] as String,
+                        productDocument.data[IMAGE] as String,
                         productDocument.data[PRICE] as Long
                     )
                 }

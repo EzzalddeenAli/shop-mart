@@ -8,6 +8,7 @@ import kotlinx.android.parcel.Parcelize
 data class Product(
     val id: String,
     val name: String?,
+    val image: String,
     val price: Long
 ) : Parcelable {
     @IgnoredOnParcel

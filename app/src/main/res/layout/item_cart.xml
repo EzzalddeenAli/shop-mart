@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
 
         <variable
             name="position"
@@ -39,7 +40,7 @@
             tools:text="Lamp" />
 
         <TextView
-            android:id="@+id/tvPrice"
+            android:id="@+id/tvProductPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{cart.product.pricePhp}"
@@ -51,17 +52,16 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:visibility="@{viewmodel.loadingLiveData.booleanValue() ? View.VISIBLE : View.GONE}"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/buttonRemove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_minus"
             android:onClick="@{() -> viewmodel.minusToCart(cart, position)}"
+            android:text="@string/sign_minus"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvProductQuantity"
             app:layout_constraintTop_toTopOf="parent" />

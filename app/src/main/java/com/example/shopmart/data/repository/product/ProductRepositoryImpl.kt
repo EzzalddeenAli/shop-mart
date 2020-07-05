@@ -1,6 +1,7 @@
 package com.example.shopmart.data.repository.product
 
 import com.example.shopmart.data.model.Product
+import com.example.shopmart.util.IMAGE
 import com.example.shopmart.util.NAME
 import com.example.shopmart.util.PRICE
 import com.google.firebase.firestore.CollectionReference
@@ -26,6 +27,7 @@ class ProductRepositoryImpl @Inject constructor(
                                 Product(
                                     productSnapshot.id,
                                     productSnapshot.data[NAME] as String,
+                                    productSnapshot.data[IMAGE] as String,
                                     productSnapshot.data[PRICE] as Long
                                 )
                             )
