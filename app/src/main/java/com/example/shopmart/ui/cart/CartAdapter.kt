@@ -1,46 +1,51 @@
 package com.example.shopmart.ui.cart
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shopmart.R
 import com.example.shopmart.data.model.Cart
-import kotlinx.android.synthetic.main.item_cart.view.*
+import com.example.shopmart.databinding.ItemCartBinding
 
 class CartAdapter(
-    private val remove: (cart: Cart, position: Int) -> Unit,
-    private val add: (cart: Cart, position: Int) -> Unit
-) : ListAdapter<Cart, CartAdapter.CartViewHolder>(CartDiffCallback()) {
+    private val viewModel: CartViewModel
+) : ListAdapter<Cart, CartAdapter.ViewHolder>(CartDiffCallback()) {
 
-    inner class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindTo(cart: Cart) {
-            itemView.apply {
-                tvProductName?.text = cart.product?.name
-                tvProductQuantity?.text = cart.quantity.toString()
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = getItem(position)
 
-                buttonRemove.setOnClickListener { remove(cart, position) }
+        holder.bind(viewModel, item, position)
+    }
 
-                buttonAdd.setOnClickListener { add(cart, position) }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder.from(parent)
+    }
+
+    class ViewHolder private constructor(val binding: ItemCartBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(viewModel: CartViewModel, item: Cart, position: Int) {
+
+            binding.viewmodel = viewModel
+            binding.position = position
+            binding.cart = item
+            binding.executePendingBindings()
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ItemCartBinding.inflate(layoutInflater, parent, false)
+
+                return ViewHolder(binding)
             }
         }
     }
 
-    override fun submitList(list: List<Cart>?) {
+    override fun submitList(list: MutableList<Cart>?) {
         super.submitList(list)
         notifyDataSetChanged()
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cart, parent, false)
-        return CartViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        val cart = getItem(position)
-        holder.bindTo(cart)
     }
 }
 

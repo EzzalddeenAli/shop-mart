@@ -2,4 +2,10 @@ package com.example.shopmart.ui.base
 
 import androidx.fragment.app.Fragment
 
-open class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId)
+open class BaseFragment : Fragment {
+
+    constructor(layout: Int) : super(layout)
+
+    constructor() : super()
+
+}

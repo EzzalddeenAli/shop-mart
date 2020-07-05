@@ -1,11 +1,16 @@
 package com.example.shopmart.ui.cart
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.shopmart.R
+import com.example.shopmart.data.model.Cart
+import com.example.shopmart.databinding.FragmentCartBinding
 import com.example.shopmart.exception.EmptyCart
 import com.example.shopmart.exception.NoAccount
 import com.example.shopmart.ui.base.BaseFragment
@@ -18,24 +23,38 @@ import kotlinx.android.synthetic.main.fragment_cart.*
 import timber.log.Timber
 
 @AndroidEntryPoint
-class CartFragment : BaseFragment(R.layout.fragment_cart) {
+class CartFragment : BaseFragment() {
 
     private val viewModel by viewModels<CartViewModel>()
 
-    private val cartAdapter = CartAdapter(remove = { cart, position ->
-        viewModel.removeToCart(cart, position)
-    }, add = { cart, position ->
-        viewModel.addToCart(cart, position)
-    })
+    private lateinit var cartAdapter: CartAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private lateinit var viewDataBinding: FragmentCartBinding
 
-        recyclerViewCart.adapter = cartAdapter
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewDataBinding = FragmentCartBinding.inflate(inflater, container, false).apply {
+            viewmodel = viewModel
+        }
+        return viewDataBinding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         eventUI()
 
         subscribeUI()
+
+        setupListAdapter()
+    }
+
+    private fun setupListAdapter() {
+        cartAdapter = CartAdapter(viewModel)
+        viewDataBinding.recyclerViewCart.adapter = cartAdapter
     }
 
     private fun eventUI() {
@@ -56,6 +75,10 @@ class CartFragment : BaseFragment(R.layout.fragment_cart) {
                 cartAdapter.submitList(it)
             })
 
+            confirmRemoveToCartLiveData.observe(viewLifecycleOwner, Observer {
+                showRemoveToCartDialog(it)
+            })
+
             errorLiveData.observe(viewLifecycleOwner, Observer {
                 when (it) {
                     is NoAccount -> {
@@ -74,5 +97,17 @@ class CartFragment : BaseFragment(R.layout.fragment_cart) {
             })
 
         }
+    }
+
+    private fun showRemoveToCartDialog(cart: Cart) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.message_remove_to_cart)
+            .setPositiveButton(getString(R.string.proceed)) { _, _ ->
+                viewModel.removeToCart(cart)
+            }
+            .setNegativeButton(getString(android.R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }

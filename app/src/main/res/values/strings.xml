@@ -26,4 +26,6 @@
     <string name="sign_plus">+</string>
     <string name="shop_now">Shop now</string>
     <string name="empty_cart">Empty Cart</string>
+    <string name="message_remove_to_cart">Are you sure you want to remove this product?</string>
+    <string name="proceed">Proceed</string>
 </resources>

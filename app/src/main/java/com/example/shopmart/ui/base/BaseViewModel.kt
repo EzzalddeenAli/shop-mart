@@ -16,7 +16,9 @@ open class BaseViewModel @ViewModelInject() constructor() : ViewModel() {
 
     val snackBarLiveData = MutableLiveData<Event<Int>>()
 
-    protected fun launch(function: suspend () -> Unit) {
+    protected fun launch(allowMultipleRequest: Boolean = true, function: suspend () -> Unit) {
+        if (loadingLiveData.value == true && allowMultipleRequest.not()) return
+
         viewModelScope.launch {
             loadingLiveData.value = true
             kotlin.runCatching {
