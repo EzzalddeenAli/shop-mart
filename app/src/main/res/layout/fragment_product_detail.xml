@@ -3,17 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/ivProductImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/image"
+        app:layout_constraintDimensionRatio="6:5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvProductName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_margin="16dp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivProductImage"
         tools:text="Lamp" />
 
     <TextView
@@ -21,7 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/tvProductName"
         app:layout_constraintTop_toBottomOf="@id/tvProductName"
         tools:text="199" />
 
@@ -29,6 +40,7 @@
         android:id="@+id/buttonAddToCart"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:text="@string/add_to_cart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

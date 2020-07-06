@@ -7,7 +7,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmart.R
 import com.example.shopmart.data.model.Product
-import com.example.shopmart.util.GlideApp
+import com.example.shopmart.util.loadImage
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.item_product.view.*
 
@@ -35,14 +35,8 @@ class ProductViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val product = productList[position]
         holder.itemView.apply {
 
-            val gsReference =
-                storage.getReferenceFromUrl(product.image)
 
-            GlideApp.with(context)
-                .load(gsReference)
-                .centerCrop()
-                .into(ivProductImage)
-
+            ivProductImage.loadImage(storage.getReferenceFromUrl(product.image))
             tvProductName.text = product.name
             tvProductPrice.text = product.price.toString()
 

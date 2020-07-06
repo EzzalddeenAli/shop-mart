@@ -3,6 +3,7 @@ package com.example.shopmart.di
 import com.example.shopmart.util.PRODUCT
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +23,11 @@ object FirebaseModule {
     @ProductReference
     fun provideProductReference(firebaseFirestore: FirebaseFirestore): CollectionReference =
         firebaseFirestore.collection(PRODUCT)
+
+    @Singleton
+    @Provides
+    fun provideFirebaseStorage(): FirebaseStorage =
+        FirebaseStorage.getInstance()
 }
 
 @Qualifier

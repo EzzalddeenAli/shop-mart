@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -17,6 +16,7 @@ import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.util.setupSnackbar
 import com.example.shopmart.util.showEmptyCartView
 import com.example.shopmart.util.showNoAccountView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_cart.*
@@ -100,7 +100,7 @@ class CartFragment : BaseFragment() {
     }
 
     private fun showRemoveToCartDialog(cart: Cart) {
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.message_remove_to_cart)
             .setPositiveButton(getString(R.string.proceed)) { _, _ ->
                 viewModel.removeToCart(cart)

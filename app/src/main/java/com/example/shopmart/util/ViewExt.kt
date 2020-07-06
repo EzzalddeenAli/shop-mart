@@ -22,12 +22,14 @@ package com.example.shopmart.util
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.example.shopmart.Event
 import com.example.shopmart.R
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.layout_empty_cart.view.*
 import kotlinx.android.synthetic.main.layout_no_account.view.*
 
@@ -68,4 +70,11 @@ fun ViewGroup.showEmptyCartView(retry: () -> Unit) {
         removeView(noAccountView)
         retry()
     }
+}
+
+fun ImageView.loadImage(referenceFromUrl: StorageReference) {
+    GlideApp.with(this)
+        .load(referenceFromUrl)
+        .centerCrop()
+        .into(this)
 }

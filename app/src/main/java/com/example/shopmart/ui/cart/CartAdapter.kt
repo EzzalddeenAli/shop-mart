@@ -7,39 +7,42 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmart.data.model.Cart
 import com.example.shopmart.databinding.ItemCartBinding
+import com.example.shopmart.util.loadImage
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.item_product.view.*
 
 class CartAdapter(
     private val viewModel: CartViewModel
 ) : ListAdapter<Cart, CartAdapter.ViewHolder>(CartDiffCallback()) {
 
+    private val storage = FirebaseStorage.getInstance()
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
 
-        holder.bind(viewModel, item, position)
+        holder.bind(item, position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ItemCartBinding.inflate(layoutInflater, parent, false)
+
+        return ViewHolder(binding)
     }
 
-    class ViewHolder private constructor(val binding: ItemCartBinding) :
+    inner class ViewHolder(val binding: ItemCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(viewModel: CartViewModel, item: Cart, position: Int) {
+        fun bind(item: Cart, position: Int) {
+
+            item.product?.image?.let {
+                binding.root.ivProductImage.loadImage(storage.getReferenceFromUrl(it))
+            }
 
             binding.viewmodel = viewModel
             binding.position = position
             binding.cart = item
             binding.executePendingBindings()
-        }
-
-        companion object {
-            fun from(parent: ViewGroup): ViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemCartBinding.inflate(layoutInflater, parent, false)
-
-                return ViewHolder(binding)
-            }
         }
     }
 
