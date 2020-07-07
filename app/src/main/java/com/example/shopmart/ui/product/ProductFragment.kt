@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.shopmart.R
 import com.example.shopmart.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +21,10 @@ class ProductFragment : BaseFragment(R.layout.fragment_product) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerViewProduct.adapter = productViewAdapter
+        recyclerViewProduct.apply {
+            layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+            adapter = productViewAdapter
+        }
 
         eventUI()
 
