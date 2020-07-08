@@ -2,6 +2,7 @@ package com.example.shopmart.ui.cart
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,14 @@ class CartAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
+
+        holder.itemView.setOnClickListener {
+            item?.product?.let {
+                Navigation.findNavController(holder.itemView).navigate(
+                    CartFragmentDirections.cartToProductDetail(it)
+                )
+            }
+        }
 
         holder.bind(item, position)
     }

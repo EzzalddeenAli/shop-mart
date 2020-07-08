@@ -29,4 +29,6 @@
     <string name="message_remove_to_cart">Are you sure you want to remove this product?</string>
     <string name="proceed">Proceed</string>
     <string name="image">image</string>
+    <string name="total">Total</string>
+    <string name="message_logout_confirmation">Are you sure you want to logout?</string>
 </resources>

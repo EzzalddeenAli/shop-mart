@@ -21,7 +21,6 @@ class LoginViewModel @ViewModelInject constructor(
             val account =
                 GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException::class.java)
             accountRepository.firebaseAuthWithGoogle(account?.idToken)
-            snackBarLiveData.value = Event(R.string.successfully_login)
             signInSuccess.value = null
         }
     }

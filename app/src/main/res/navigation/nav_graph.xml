@@ -37,6 +37,15 @@
             app:popUpTo="@id/fragmentProduct"
             app:popUpToInclusive="true" />
 
+        <action
+            android:id="@+id/cart_to_productDetail"
+            app:destination="@id/productDetailFragment">
+
+            <argument
+                android:name="product"
+                app:argType="com.example.shopmart.data.model.Product" />
+        </action>
+
     </fragment>
 
     <fragment

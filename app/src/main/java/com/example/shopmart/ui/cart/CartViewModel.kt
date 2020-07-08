@@ -13,7 +13,9 @@ class CartViewModel @ViewModelInject constructor(
 
     val cartLiveData = MutableLiveData<MutableList<Cart>>()
 
-    val confirmRemoveToCartLiveData = MutableLiveData<Cart>()
+    val confirmRemoveToCartLiveData = MutableLiveData<Pair<Int, Cart>>()
+
+    val totalLiveData = MutableLiveData<Long>()
 
     init {
         getCart()
@@ -22,28 +24,25 @@ class CartViewModel @ViewModelInject constructor(
     fun getCart() {
         launch {
             cartLiveData.value = cartRepository.getCartList().toMutableList()
+            totalLiveData.value = getTotal()
         }
     }
 
     fun minusToCart(cart: Cart, position: Int) {
         if (cart.quantity <= 1) {
-            confirmRemoveToCartLiveData.value = cart
+            confirmRemoveToCartLiveData.value = position to cart
         } else {
             launch(allowMultipleRequest = false) {
                 cartRepository.minusToCart(cart)
-                cartLiveData.value = cartLiveData.value?.apply {
-                    get(position).quantity -= 1
-                }
+                updateCartList(CartListAction.MINUS, position)
             }
         }
     }
 
-    fun removeToCart(cart: Cart) {
+    fun removeToCart(cart: Cart, position: Int) {
         launch(allowMultipleRequest = false) {
             cartRepository.removeToCart(cart)
-            cartLiveData.value = cartLiveData.value?.apply {
-                remove(cart)
-            }
+            updateCartList(CartListAction.REMOVE, position)
             checkCartList()
         }
     }
@@ -57,9 +56,34 @@ class CartViewModel @ViewModelInject constructor(
     fun addToCart(cart: Cart, position: Int) {
         launch(allowMultipleRequest = false) {
             cartRepository.plusToCart(cart)
-            cartLiveData.value = cartLiveData.value?.apply {
-                get(position).quantity += 1
+            updateCartList(CartListAction.ADD, position)
+        }
+    }
+
+    private fun updateCartList(cartListAction: CartListAction, position: Int) {
+        cartLiveData.value = cartLiveData.value?.apply {
+            when (cartListAction) {
+                CartListAction.ADD -> get(position).quantity += 1
+                CartListAction.MINUS -> get(position).quantity -= 1
+                CartListAction.REMOVE -> removeAt(position)
             }
         }
+
+        totalLiveData.value = getTotal()
+    }
+
+    private fun getTotal(): Long {
+        var total = 0L
+        cartLiveData.value?.iterator()?.forEach {
+            val price = it.product?.price ?: 0
+            total += price * it.quantity
+        }
+        return total
+    }
+
+    enum class CartListAction {
+        ADD,
+        MINUS,
+        REMOVE
     }
 }

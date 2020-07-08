@@ -39,17 +39,18 @@ class CartFragment : BaseFragment() {
         viewDataBinding = FragmentCartBinding.inflate(inflater, container, false).apply {
             viewmodel = viewModel
         }
+        viewDataBinding.lifecycleOwner = this
         return viewDataBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        setupListAdapter()
+
         eventUI()
 
         subscribeUI()
-
-        setupListAdapter()
     }
 
     private fun setupListAdapter() {
@@ -99,11 +100,11 @@ class CartFragment : BaseFragment() {
         }
     }
 
-    private fun showRemoveToCartDialog(cart: Cart) {
+    private fun showRemoveToCartDialog(data: Pair<Int, Cart>) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.message_remove_to_cart)
             .setPositiveButton(getString(R.string.proceed)) { _, _ ->
-                viewModel.removeToCart(cart)
+                viewModel.removeToCart(data.second, data.first)
             }
             .setNegativeButton(getString(android.R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
