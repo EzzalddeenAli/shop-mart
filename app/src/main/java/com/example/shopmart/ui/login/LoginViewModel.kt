@@ -3,8 +3,6 @@ package com.example.shopmart.ui.login
 import android.content.Intent
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import com.example.shopmart.Event
-import com.example.shopmart.R
 import com.example.shopmart.data.repository.account.AccountRepository
 import com.example.shopmart.ui.base.BaseViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -28,6 +26,13 @@ class LoginViewModel @ViewModelInject constructor(
     fun onActivityResult(requestCode: Int, data: Intent?) {
         if (requestCode == RC_SIGN_IN) {
             signIn(data)
+        }
+    }
+
+    fun loginAccount(email: String, password: String) {
+        launch {
+            accountRepository.loginAccount(email, password)
+            signInSuccess.value = null
         }
     }
 

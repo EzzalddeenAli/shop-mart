@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -42,7 +43,23 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     private fun eventUI() {
         buttonLogin.setOnClickListener {
+            viewModel.loginAccount(etEmail.text.toString(), etPassword.text.toString())
+        }
+
+        etEmail.addTextChangedListener {
+            checkLoginStatus()
+        }
+
+        etPassword.addTextChangedListener {
+            checkLoginStatus()
+        }
+
+        buttonContinueWithGoogle.setOnClickListener {
             startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
+
+        buttonCreateAccount.setOnClickListener {
+            accountManagerViewModel.updateScreen(AccountScreen.SIGNUP)
         }
     }
 
@@ -63,17 +80,23 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             loadingLiveData.observe(viewLifecycleOwner, Observer {
                 pbLogin.isVisible = it
                 buttonLogin.isEnabled = !it
-                etUsername.isEnabled = !it
+                etEmail.isEnabled = !it
                 etPassword.isEnabled = !it
+                buttonContinueWithGoogle.isEnabled = !it
+                buttonCreateAccount.isEnabled = !it
             })
         }
+    }
+
+    private fun checkLoginStatus() {
+        buttonLogin.isEnabled =
+            etEmail.text.toString().isNotBlank() and etPassword.text.toString().isNotBlank()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         viewModel.onActivityResult(requestCode, data)
     }
-
 
     private fun showSuccessfullyLoginDialog() {
         MaterialAlertDialogBuilder(requireContext())

@@ -17,6 +17,26 @@ class AccountRepositoryImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : AccountRepository {
 
+    override suspend fun createAccount(email: String, password: String) {
+        return withContext(Dispatchers.IO) {
+            suspendCoroutine<Unit> { continuation ->
+                getFirebaseAuth().createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener { continuation.resume(Unit) }
+                    .addOnFailureListener { continuation.resumeWithException(it) }
+            }
+        }
+    }
+
+    override suspend fun loginAccount(email: String, password: String) {
+        return withContext(Dispatchers.IO) {
+            suspendCoroutine<Unit> { continuation ->
+                getFirebaseAuth().signInWithEmailAndPassword(email, password)
+                    .addOnSuccessListener { continuation.resume(Unit) }
+                    .addOnFailureListener { continuation.resumeWithException(it) }
+            }
+        }
+    }
+
     override suspend fun firebaseAuthWithGoogle(idToken: String?) {
         return withContext(Dispatchers.IO) {
             suspendCoroutine<Unit> { continuation ->

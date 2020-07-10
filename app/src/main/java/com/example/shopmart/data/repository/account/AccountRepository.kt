@@ -11,4 +11,8 @@ interface AccountRepository {
     fun getCurrentUser(): FirebaseUser?
 
     fun isLoggedIn(): Boolean
+
+    suspend fun createAccount(email: String, password: String)
+
+    suspend fun loginAccount(email: String, password: String)
 }

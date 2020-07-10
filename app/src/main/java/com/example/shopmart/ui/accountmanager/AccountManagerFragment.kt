@@ -7,9 +7,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import com.example.shopmart.R
-import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.ui.account.AccountFragment
+import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.ui.login.LoginFragment
+import com.example.shopmart.ui.signup.SignupFragment
 import com.example.shopmart.util.AccountScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,8 +25,9 @@ class AccountManagerFragment : BaseFragment(R.layout.fragment_account_manager) {
         viewModel.accountFragmentLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 AccountScreen.LOGIN -> replaceFragment(LoginFragment())
-                AccountScreen.SIGNUP -> TODO()
+                AccountScreen.SIGNUP -> replaceFragment(SignupFragment())
                 AccountScreen.ACCOUNT -> replaceFragment(AccountFragment())
+                else -> Unit
             }
         })
 
