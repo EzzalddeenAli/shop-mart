@@ -40,12 +40,18 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavigationView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
+                R.id.fragmentProduct, R.id.fragmentCart, R.id.fragmentAccountManager -> {
+                    supportActionBar?.hide()
+                    bottomNavigationView.isVisible = true
+                }
                 R.id.productDetailFragment -> {
+                    supportActionBar?.show()
                     bottomNavigationView.isVisible = false
                 }
                 else -> {
+                    supportActionBar?.show()
                     bottomNavigationView.isVisible = true
                 }
             }

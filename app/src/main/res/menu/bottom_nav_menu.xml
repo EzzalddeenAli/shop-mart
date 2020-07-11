@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@id/fragmentProduct"
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@drawable/ic_baseline_home_24"
         android:title="@string/home" />
 
     <item
         android:id="@id/fragmentCart"
-        android:icon="@android:drawable/ic_btn_speak_now"
+        android:icon="@drawable/ic_twotone_shopping_cart_24"
         android:title="@string/cart" />
 
     <item
         android:id="@id/fragmentAccountManager"
-        android:icon="@android:drawable/ic_delete"
+        android:icon="@drawable/ic_baseline_android_24"
         android:title="@string/my_account" />
 
 </menu>

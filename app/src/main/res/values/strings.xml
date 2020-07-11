@@ -35,4 +35,5 @@
     <string name="continue_with_google">Continue with Google</string>
     <string name="email">Email</string>
     <string name="message_account_created">Account successfully created!</string>
+    <string name="back_to_login">Back To Login</string>
 </resources>

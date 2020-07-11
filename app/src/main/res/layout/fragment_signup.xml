@@ -7,6 +7,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/email"
@@ -20,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:gravity="center"
             android:imeOptions="actionNext"
             android:inputType="text" />
 
@@ -28,6 +28,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/password"
@@ -40,7 +41,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:gravity="center"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="textPassword" />
@@ -51,10 +51,9 @@
         android:id="@+id/buttonSignup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
         android:enabled="false"
         android:text="@string/create_account"
+        app:icon="@drawable/ic_baseline_person_add_24"
         app:layout_constraintBottom_toBottomOf="@id/guidelineCenterHorizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -65,9 +64,22 @@
         android:layout_height="0dp"
         android:elevation="2dp"
         android:visibility="gone"
-        app:layout_constraintBaseline_toBaselineOf="@id/buttonSignup"
+        app:layout_constraintBottom_toBottomOf="@id/buttonSignup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/buttonSignup" />
+
+    <Button
+        android:id="@+id/buttonBackToLogin"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/back_to_login"
+        app:icon="@drawable/ic_baseline_arrow_back_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonSignup" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineCenterHorizontal"

@@ -38,6 +38,10 @@ class SignupFragment : BaseFragment(R.layout.fragment_signup) {
             viewModel.createAccount(etEmail.text.toString(), etPassword.text.toString())
         }
 
+        buttonBackToLogin.setOnClickListener {
+            accountManagerViewModel.updateScreen(AccountScreen.LOGIN)
+        }
+
         etEmail.addTextChangedListener {
             checkSignupStatus()
         }

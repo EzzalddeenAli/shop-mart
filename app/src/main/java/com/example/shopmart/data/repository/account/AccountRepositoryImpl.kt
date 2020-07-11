@@ -31,7 +31,10 @@ class AccountRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             suspendCoroutine<Unit> { continuation ->
                 getFirebaseAuth().signInWithEmailAndPassword(email, password)
-                    .addOnSuccessListener { continuation.resume(Unit) }
+                    .addOnSuccessListener {
+                        saveAccount()
+                        continuation.resume(Unit)
+                    }
                     .addOnFailureListener { continuation.resumeWithException(it) }
             }
         }
@@ -44,9 +47,8 @@ class AccountRepositoryImpl @Inject constructor(
                 getFirebaseAuth().signInWithCredential(credential)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            signInSuccess {
-                                continuation.resume(Unit)
-                            }
+                            saveAccount()
+                            continuation.resume(Unit)
                         } else {
                             task.exception?.cause?.let { continuation.resumeWithException(it) }
                             Timber.d("signInWithCredential:failure ${task.exception}")
@@ -59,12 +61,11 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun signInSuccess(function: () -> Unit) {
+    private fun saveAccount() {
         with(sharedPreferences.edit()) {
             putBoolean(IS_LOGGED_IN, true)
             apply()
         }
-        function.invoke()
     }
 
     override fun signOut() {
