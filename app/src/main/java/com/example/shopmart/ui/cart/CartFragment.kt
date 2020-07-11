@@ -28,7 +28,7 @@ class CartFragment : BaseFragment() {
 
     private val viewModel by viewModels<CartViewModel>()
 
-    private lateinit var cartAdapter: CartAdapter
+    private val cartAdapter by lazy { CartAdapter(viewModel) }
 
     private lateinit var viewDataBinding: FragmentCartBinding
 
@@ -47,16 +47,11 @@ class CartFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setupListAdapter()
+        recyclerViewCart.adapter = cartAdapter
 
         eventUI()
 
         subscribeUI()
-    }
-
-    private fun setupListAdapter() {
-        cartAdapter = CartAdapter(viewModel)
-        viewDataBinding.recyclerViewCart.adapter = cartAdapter
     }
 
     private fun eventUI() {
@@ -77,7 +72,7 @@ class CartFragment : BaseFragment() {
                 cartAdapter.submitList(it)
             })
 
-            confirmRemoveToCartLiveData.observe(viewLifecycleOwner, Observer {
+            confirmRemoveToCartLiveData.observe(viewLifecycleOwner, EventObserver {
                 showRemoveToCartDialog(it)
             })
 

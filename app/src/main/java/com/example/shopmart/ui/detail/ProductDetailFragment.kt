@@ -10,6 +10,7 @@ import com.example.shopmart.EventObserver
 import com.example.shopmart.R
 import com.example.shopmart.data.model.Product
 import com.example.shopmart.ui.base.BaseFragment
+import com.example.shopmart.ui.detail.ProductDetailViewModel.ProductDetailEvent
 import com.example.shopmart.util.loadImage
 import com.example.shopmart.util.setupSnackbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -17,7 +18,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_product_detail.*
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -56,6 +56,14 @@ class ProductDetailFragment : BaseFragment(R.layout.fragment_product_detail) {
 
     private fun subscribeUI() {
         with(viewModel) {
+            view?.setupSnackbar(viewLifecycleOwner, snackBarLiveData, Snackbar.LENGTH_SHORT)
+
+            baseEventLiveData.observe(viewLifecycleOwner, EventObserver {
+                when (it) {
+                    is ProductDetailEvent.AddedToCart -> showAddedToCartDialog()
+                }
+            })
+
             loadingLiveData.observe(viewLifecycleOwner, Observer {
                 buttonAddToCart.isEnabled = !it
             })
@@ -64,11 +72,6 @@ class ProductDetailFragment : BaseFragment(R.layout.fragment_product_detail) {
                 showSignInDialog()
             })
 
-            showAddedToCartDialog.observe(viewLifecycleOwner, EventObserver {
-                showAddedToCartDialog()
-            })
-
-            view?.setupSnackbar(viewLifecycleOwner, snackBarLiveData, Snackbar.LENGTH_SHORT)
         }
     }
 

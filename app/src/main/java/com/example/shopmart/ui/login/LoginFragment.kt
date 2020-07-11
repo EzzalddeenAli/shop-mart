@@ -13,6 +13,7 @@ import com.example.shopmart.R
 import com.example.shopmart.ui.accountmanager.AccountManagerViewModel
 import com.example.shopmart.ui.base.BaseFragment
 import com.example.shopmart.ui.login.LoginViewModel.Companion.RC_SIGN_IN
+import com.example.shopmart.ui.login.LoginViewModel.LoginEvent.LoginSuccess
 import com.example.shopmart.ui.main.MainViewModel
 import com.example.shopmart.util.AccountScreen
 import com.example.shopmart.util.setupSnackbar
@@ -68,10 +69,14 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         with(viewModel) {
             view?.setupSnackbar(viewLifecycleOwner, snackBarLiveData, Snackbar.LENGTH_SHORT)
 
-            signInSuccess.observe(viewLifecycleOwner, Observer {
-                showSuccessfullyLoginDialog()
-                accountManagerViewModel.updateScreen(AccountScreen.ACCOUNT)
-                mainViewModel.checkAccount()
+            baseEventLiveData.observe(viewLifecycleOwner, EventObserver {
+                when (it) {
+                    is LoginSuccess -> {
+                        showSuccessfullyLoginDialog()
+                        accountManagerViewModel.updateScreen(AccountScreen.ACCOUNT)
+                        mainViewModel.checkAccount()
+                    }
+                }
             })
 
             errorLiveData.observe(viewLifecycleOwner, EventObserver {

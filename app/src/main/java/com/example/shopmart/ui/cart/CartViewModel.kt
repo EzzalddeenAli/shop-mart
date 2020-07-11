@@ -14,7 +14,7 @@ class CartViewModel @ViewModelInject constructor(
 
     val cartLiveData = MutableLiveData<MutableList<Cart>>()
 
-    val confirmRemoveToCartLiveData = MutableLiveData<Pair<Int, Cart>>()
+    val confirmRemoveToCartLiveData = MutableLiveData<Event<Pair<Int, Cart>>>()
 
     val totalLiveData = MutableLiveData<Long>()
 
@@ -31,7 +31,7 @@ class CartViewModel @ViewModelInject constructor(
 
     fun minusToCart(cart: Cart, position: Int) {
         if (cart.quantity <= 1) {
-            confirmRemoveToCartLiveData.value = position to cart
+            confirmRemoveToCartLiveData.value = Event(position to cart)
         } else {
             launch(allowMultipleRequest = false) {
                 cartRepository.minusToCart(cart)

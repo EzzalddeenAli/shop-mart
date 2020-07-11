@@ -16,7 +16,13 @@ open class BaseViewModel @ViewModelInject() constructor() : ViewModel() {
 
     val snackBarLiveData = MutableLiveData<Event<Int>>()
 
-    protected fun launch(allowMultipleRequest: Boolean = true, function: suspend () -> Unit) {
+    val baseEventLiveData = MutableLiveData<Event<BaseEvent>>()
+
+    protected fun launch(
+        baseEvent: BaseEvent? = null,
+        allowMultipleRequest: Boolean = true,
+        function: suspend () -> Unit
+    ) {
         if (loadingLiveData.value == true && allowMultipleRequest.not()) return
 
         viewModelScope.launch {
@@ -24,6 +30,10 @@ open class BaseViewModel @ViewModelInject() constructor() : ViewModel() {
             kotlin.runCatching {
                 function()
                 loadingLiveData.value = false
+
+                if (baseEvent != null) {
+                    baseEventLiveData.value = Event(baseEvent)
+                }
             }.onFailure {
                 Timber.e(it)
                 errorLiveData.value = Event(it)
@@ -31,4 +41,6 @@ open class BaseViewModel @ViewModelInject() constructor() : ViewModel() {
             }
         }
     }
+
+    open class BaseEvent
 }

@@ -11,6 +11,7 @@ import com.example.shopmart.EventObserver
 import com.example.shopmart.R
 import com.example.shopmart.ui.accountmanager.AccountManagerViewModel
 import com.example.shopmart.ui.base.BaseFragment
+import com.example.shopmart.ui.signup.SignupViewModel.SignupEvent
 import com.example.shopmart.util.AccountScreen
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -48,6 +49,15 @@ class SignupFragment : BaseFragment(R.layout.fragment_signup) {
 
     private fun subscribeUI() {
         with(viewModel) {
+            baseEventLiveData.observe(viewLifecycleOwner, EventObserver {
+                when (it) {
+                    is SignupEvent.SignupSuccess -> {
+                        showAccountCreatedDialog()
+                        accountManagerViewModel.updateScreen(AccountScreen.LOGIN)
+                    }
+                }
+            })
+
             loadingLiveData.observe(viewLifecycleOwner, Observer {
                 pbSignup.isVisible = it
                 buttonSignup.isEnabled = !it
@@ -59,11 +69,6 @@ class SignupFragment : BaseFragment(R.layout.fragment_signup) {
                         showErrorDialog(it.message)
                     }
                 }
-            })
-
-            signupSuccessLiveData.observe(viewLifecycleOwner, Observer {
-                showAccountCreatedDialog()
-                accountManagerViewModel.updateScreen(AccountScreen.LOGIN)
             })
         }
     }

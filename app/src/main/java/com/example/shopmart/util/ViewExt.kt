@@ -25,8 +25,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import com.example.shopmart.Event
+import com.example.shopmart.EventObserver
 import com.example.shopmart.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.StorageReference
@@ -41,10 +41,8 @@ fun View.setupSnackbar(
     snackbarEvent: LiveData<Event<Int>>,
     timeLength: Int
 ) {
-    snackbarEvent.observe(lifecycleOwner, Observer { event ->
-        event.getContentIfNotHandled()?.let {
-            Snackbar.make(this, context.getString(it), timeLength).show()
-        }
+    snackbarEvent.observe(lifecycleOwner, EventObserver { event ->
+        Snackbar.make(this, context.getString(event), timeLength).show()
     })
 }
 
