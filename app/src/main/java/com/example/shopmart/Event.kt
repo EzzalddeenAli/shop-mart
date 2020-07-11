@@ -59,6 +59,6 @@ class EventObserver<T>(private val onEventUnhandledContent: (T) -> Unit) : Obser
     }
 }
 
-fun <T> MutableLiveData<Event<T>>.invoke() {
-    this.value = null
+fun MutableLiveData<Event<Unit>>.call() {
+    this.value = Event(Unit)
 }

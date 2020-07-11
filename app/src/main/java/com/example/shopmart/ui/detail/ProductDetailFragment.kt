@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.shopmart.EventObserver
 import com.example.shopmart.R
 import com.example.shopmart.data.model.Product
 import com.example.shopmart.ui.base.BaseFragment
@@ -16,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_product_detail.*
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -58,11 +60,11 @@ class ProductDetailFragment : BaseFragment(R.layout.fragment_product_detail) {
                 buttonAddToCart.isEnabled = !it
             })
 
-            errorLiveData.observe(viewLifecycleOwner, Observer {
+            errorLiveData.observe(viewLifecycleOwner, EventObserver {
                 showSignInDialog()
             })
 
-            showAddedToCartDialog.observe(viewLifecycleOwner, Observer {
+            showAddedToCartDialog.observe(viewLifecycleOwner, EventObserver {
                 showAddedToCartDialog()
             })
 

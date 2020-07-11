@@ -12,7 +12,7 @@ open class BaseViewModel @ViewModelInject() constructor() : ViewModel() {
 
     val loadingLiveData = MutableLiveData<Boolean>()
 
-    val errorLiveData = MutableLiveData<Throwable>()
+    val errorLiveData = MutableLiveData<Event<Throwable>>()
 
     val snackBarLiveData = MutableLiveData<Event<Int>>()
 
@@ -26,7 +26,7 @@ open class BaseViewModel @ViewModelInject() constructor() : ViewModel() {
                 loadingLiveData.value = false
             }.onFailure {
                 Timber.e(it)
-                errorLiveData.value = it
+                errorLiveData.value = Event(it)
                 loadingLiveData.value = false
             }
         }

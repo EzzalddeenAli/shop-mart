@@ -2,6 +2,7 @@ package com.example.shopmart.ui.cart
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import com.example.shopmart.Event
 import com.example.shopmart.data.model.Cart
 import com.example.shopmart.data.repository.cart.CartRepository
 import com.example.shopmart.exception.EmptyCart
@@ -49,7 +50,7 @@ class CartViewModel @ViewModelInject constructor(
 
     private fun checkCartList() {
         if (cartLiveData.value.isNullOrEmpty()) {
-            errorLiveData.value = EmptyCart()
+            errorLiveData.value = Event(EmptyCart())
         }
     }
 

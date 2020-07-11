@@ -7,6 +7,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.example.shopmart.EventObserver
 import com.example.shopmart.R
 import com.example.shopmart.ui.accountmanager.AccountManagerViewModel
 import com.example.shopmart.ui.base.BaseFragment
@@ -52,7 +53,7 @@ class SignupFragment : BaseFragment(R.layout.fragment_signup) {
                 buttonSignup.isEnabled = !it
             })
 
-            errorLiveData.observe(viewLifecycleOwner, Observer {
+            errorLiveData.observe(viewLifecycleOwner, EventObserver {
                 when (it) {
                     is FirebaseAuthInvalidCredentialsException -> {
                         showErrorDialog(it.message)

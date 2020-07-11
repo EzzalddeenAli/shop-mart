@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.shopmart.EventObserver
 import com.example.shopmart.R
 import com.example.shopmart.data.model.Cart
 import com.example.shopmart.databinding.FragmentCartBinding
@@ -80,7 +81,7 @@ class CartFragment : BaseFragment() {
                 showRemoveToCartDialog(it)
             })
 
-            errorLiveData.observe(viewLifecycleOwner, Observer {
+            errorLiveData.observe(viewLifecycleOwner, EventObserver {
                 when (it) {
                     is NoAccount -> {
                         cartAdapter.submitList(mutableListOf())
