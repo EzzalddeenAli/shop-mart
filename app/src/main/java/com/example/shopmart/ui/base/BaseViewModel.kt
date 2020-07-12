@@ -16,6 +16,7 @@ open class BaseViewModel @ViewModelInject() constructor() : ViewModel() {
 
     val snackBarLiveData = MutableLiveData<Event<Int>>()
 
+    // Experimental code :D
     val baseEventLiveData = MutableLiveData<Event<BaseEvent>>()
 
     protected fun launch(
