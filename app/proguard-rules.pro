@@ -20,6 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.example.shopmart.data.model.* { *; }
+-keep class ph.mart.shopmart.data.model.* { *; }
 
 -keepnames class androidx.navigation.fragment.NavHostFragment

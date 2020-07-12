@@ -24,7 +24,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "com.example.shopmart"
+        applicationId "ph.mart.shopmart"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragmentProduct"
-        android:name="com.example.shopmart.ui.product.ProductFragment"
+        android:name="ph.mart.shopmart.ui.product.ProductFragment"
         android:label="@string/product"
         tools:layout="@layout/fragment_product">
         <action
@@ -15,19 +15,19 @@
             app:destination="@id/productDetailFragment">
             <argument
                 android:name="product"
-                app:argType="com.example.shopmart.data.model.Product" />
+                app:argType="ph.mart.shopmart.data.model.Product" />
         </action>
     </fragment>
 
     <fragment
         android:id="@+id/fragmentAccountManager"
-        android:name="com.example.shopmart.ui.accountmanager.AccountManagerFragment"
+        android:name="ph.mart.shopmart.ui.accountmanager.AccountManagerFragment"
         android:label="@string/my_account"
         tools:layout="@layout/fragment_account_manager" />
 
     <fragment
         android:id="@+id/fragmentCart"
-        android:name="com.example.shopmart.ui.cart.CartFragment"
+        android:name="ph.mart.shopmart.ui.cart.CartFragment"
         android:label="@string/cart"
         tools:layout="@layout/fragment_cart">
 
@@ -43,19 +43,19 @@
 
             <argument
                 android:name="product"
-                app:argType="com.example.shopmart.data.model.Product" />
+                app:argType="ph.mart.shopmart.data.model.Product" />
         </action>
 
     </fragment>
 
     <fragment
         android:id="@+id/productDetailFragment"
-        android:name="com.example.shopmart.ui.detail.ProductDetailFragment"
+        android:name="ph.mart.shopmart.ui.detail.ProductDetailFragment"
         android:label="@string/detail"
         tools:layout="@layout/fragment_product_detail">
         <argument
             android:name="product"
-            app:argType="com.example.shopmart.data.model.Product" />
+            app:argType="ph.mart.shopmart.data.model.Product" />
 
         <action
             android:id="@+id/productDetail_to_accountManager"

@@ -12,7 +12,7 @@
 
         <variable
             name="viewmodel"
-            type="com.example.shopmart.ui.cart.CartViewModel" />
+            type="ph.mart.shopmart.ui.cart.CartViewModel" />
 
     </data>
 

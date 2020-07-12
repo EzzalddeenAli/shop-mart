@@ -14,11 +14,11 @@
 
         <variable
             name="cart"
-            type="com.example.shopmart.data.model.Cart" />
+            type="ph.mart.shopmart.data.model.Cart" />
 
         <variable
             name="viewmodel"
-            type="com.example.shopmart.ui.cart.CartViewModel" />
+            type="ph.mart.shopmart.ui.cart.CartViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
