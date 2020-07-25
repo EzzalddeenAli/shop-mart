@@ -2,6 +2,7 @@
 
 A simple eCommerce android application.
 
+Download the app [here](https://play.google.com/store/apps/details?id=ph.mart.shopmart)
 
 ## Technologies
 - MVVM
