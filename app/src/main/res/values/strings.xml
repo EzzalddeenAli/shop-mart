@@ -36,4 +36,6 @@
     <string name="continue_with_google">Continue with Google</string>
     <string name="email">Email</string>
     <string name="back_to_login">Back To Login</string>
+    <string name="title_login">Login</string>
+    <string name="title_base">Base</string>
 </resources>

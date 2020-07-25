@@ -84,7 +84,7 @@ class CartFragment : BaseFragment() {
                     }
                     is EmptyCart -> {
                         clCartParent.showEmptyCartView {
-                            findNavController().navigate(CartFragmentDirections.cartToProduct())
+//                            findNavController().navigate(CartFragmentDirections.cartToProduct())
                         }
                     }
                     else -> {

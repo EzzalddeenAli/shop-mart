@@ -10,7 +10,7 @@ import ph.mart.shopmart.data.model.Cart
 import ph.mart.shopmart.databinding.ItemCartBinding
 import ph.mart.shopmart.util.loadImage
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.item_product.view.*
+import kotlinx.android.synthetic.main.item_cart.view.*
 
 class CartAdapter(
     private val viewModel: CartViewModel

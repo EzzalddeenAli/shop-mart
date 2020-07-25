@@ -3,21 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragmentProduct">
+    app:startDestination="@id/navigation_home">
 
-    <fragment
-        android:id="@+id/fragmentProduct"
-        android:name="ph.mart.shopmart.ui.product.ProductFragment"
-        android:label="@string/product"
-        tools:layout="@layout/fragment_product">
-        <action
-            android:id="@+id/product_to_productDetail"
-            app:destination="@id/productDetailFragment">
-            <argument
-                android:name="product"
-                app:argType="ph.mart.shopmart.data.model.Product" />
-        </action>
-    </fragment>
+    <include app:graph="@navigation/navigation_home" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/fragmentProduct"-->
+<!--        android:name="ph.mart.shopmart.ui.product.ProductFragment"-->
+<!--        android:label="@string/product"-->
+<!--        tools:layout="@layout/fragment_product">-->
+<!--        <action-->
+<!--            android:id="@+id/product_to_productDetail"-->
+<!--            app:destination="@id/productDetailFragment">-->
+<!--            <argument-->
+<!--                android:name="product"-->
+<!--                app:argType="ph.mart.shopmart.data.model.Product" />-->
+<!--        </action>-->
+<!--    </fragment>-->
 
     <fragment
         android:id="@+id/fragmentAccountManager"
@@ -31,11 +33,11 @@
         android:label="@string/cart"
         tools:layout="@layout/fragment_cart">
 
-        <action
-            android:id="@+id/cart_to_product"
-            app:destination="@id/fragmentProduct"
-            app:popUpTo="@id/fragmentProduct"
-            app:popUpToInclusive="true" />
+<!--        <action-->
+<!--            android:id="@+id/cart_to_product"-->
+<!--            app:destination="@id/fragmentProduct"-->
+<!--            app:popUpTo="@id/fragmentProduct"-->
+<!--            app:popUpToInclusive="true" />-->
 
         <action
             android:id="@+id/cart_to_productDetail"

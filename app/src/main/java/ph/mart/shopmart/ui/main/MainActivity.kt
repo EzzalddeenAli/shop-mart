@@ -35,14 +35,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private fun setupNavigation() {
         val navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.fragmentProduct, R.id.fragmentCart, R.id.fragmentAccountManager)
+            setOf(R.id.fragmentHome, R.id.fragmentCart, R.id.fragmentAccountManager)
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.fragmentProduct, R.id.fragmentCart, R.id.fragmentAccountManager -> {
+                R.id.fragmentHome, R.id.fragmentCart, R.id.fragmentAccountManager -> {
                     supportActionBar?.hide()
                     bottomNavigationView.isVisible = true
                 }

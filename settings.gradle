@@ -1,2 +1,6 @@
+include ':base'
+include ':features:cart'
+include ':features:account'
+include ':features:home'
 include ':app'
 rootProject.name = "ShopMart"
